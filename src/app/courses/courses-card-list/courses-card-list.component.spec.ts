@@ -7,6 +7,7 @@ import {By} from '@angular/platform-browser';
 import {sortCoursesBySeqNo} from '../home/sort-course-by-seq';
 import {Course} from '../model/course';
 import {setupCourses} from '../common/setup-test-data';
+import { render, screen } from '@testing-library/angular';
 
 
 describe('CoursesCardListComponent', () => {
@@ -65,6 +66,31 @@ describe('CoursesCardListComponent', () => {
         expect(title.nativeElement.textContent).toBe(course.titles.description);
 
         expect(image.nativeElement.src).toBe(course.iconUrl);
+
+    });
+
+});
+
+describe('CoursesCardListComponent (Angular Testing Library)', () => {
+
+    it('should display the first course', async () => {
+
+        const courses = setupCourses();
+        
+        await render(CoursesCardListComponent, {
+            imports: [CoursesModule],
+            componentProperties: {
+                courses: courses
+            }
+        });
+
+        const firstCourse = courses[0];
+        
+        const titleElement = screen.getByText(firstCourse.titles.description);
+        expect(titleElement).toBeTruthy();
+        
+        const courseImages = screen.getAllByRole('img');
+        expect(courseImages[0].getAttribute('src')).toBe(firstCourse.iconUrl);
 
     });
 
