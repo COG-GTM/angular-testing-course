@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { render, screen } from '@testing-library/angular';
 import {CoursesCardListComponent} from './courses-card-list.component';
 import {CoursesModule} from '../courses.module';
 import {COURSES} from '../../../../server/db-data';
@@ -65,6 +66,29 @@ describe('CoursesCardListComponent', () => {
         expect(title.nativeElement.textContent).toBe(course.titles.description);
 
         expect(image.nativeElement.src).toBe(course.iconUrl);
+
+    });
+
+});
+
+describe('CoursesCardListComponent with Angular Testing Library', () => {
+
+    it('should display the first course', async () => {
+
+        const courses = setupCourses();
+        const firstCourse = courses[0];
+
+        const { getByText, getAllByRole } = await render(CoursesCardListComponent, {
+            imports: [CoursesModule],
+            componentProperties: {
+                courses: courses
+            }
+        });
+
+        expect(getByText(firstCourse.titles.description)).toBeTruthy();
+
+        const courseImages = getAllByRole('img');
+        expect(courseImages[0].getAttribute('src')).toBe(firstCourse.iconUrl);
 
     });
 
