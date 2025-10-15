@@ -54,9 +54,53 @@ To run the frontend part of our code, we will use the Angular CLI:
 
 The application is visible at port 4200: [http://localhost:4200](http://localhost:4200)
 
+# Testing
 
+This repository demonstrates comprehensive Angular testing practices using Karma and Jasmine.
 
-# Important 
+## Running Tests
+
+To run the test suite:
+
+    npm test
+
+To run tests in watch mode during development:
+
+    npm test -- --watch
+
+## Angular Testing Library
+
+This repository is in the process of migrating select tests to Angular Testing Library, a user-centric testing approach that focuses on testing components from the user's perspective rather than implementation details.
+
+### What is Angular Testing Library?
+
+Angular Testing Library is built on top of DOM Testing Library and provides utilities to test Angular components in a way that resembles how users interact with your application. It encourages better testing practices by:
+
+- Querying elements by accessibility attributes and visible text rather than CSS selectors
+- Automatically handling change detection
+- Focusing on user-facing behavior rather than internal component state
+- Making tests more maintainable and resilient to refactoring
+
+### Current Implementation
+
+Selected tests have been migrated to demonstrate Angular Testing Library patterns. For example, see the `CoursesCardListComponent` tests which show both traditional TestBed-based tests and Angular Testing Library-based tests for comparison.
+
+**Key differences in the migrated tests:**
+- Uses `render()` function instead of `TestBed.createComponent()`
+- Uses `screen.getByText()`, `screen.getAllByRole()` instead of `By.css()` selectors
+- No manual `fixture.detectChanges()` calls needed
+- More readable and maintainable test code
+
+### Package Versions
+
+The repository uses `@testing-library/angular@17.3.7` for compatibility with Angular 19. Note that Angular Testing Library v18+ requires Angular 20+.
+
+### Learn More
+
+- [Angular Testing Library Documentation](https://testing-library.com/docs/angular-testing-library/intro/)
+- [Testing Library Guiding Principles](https://testing-library.com/docs/guiding-principles/)
+
+# Important
 
 This repository has multiple branches, have a look at the beginning of each section to see the name of the branch.
 
