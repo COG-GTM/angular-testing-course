@@ -7,6 +7,9 @@ import {By} from '@angular/platform-browser';
 import {sortCoursesBySeqNo} from '../home/sort-course-by-seq';
 import {Course} from '../model/course';
 import {setupCourses} from '../common/setup-test-data';
+import { MatDialog } from '@angular/material/dialog';
+import { of } from 'rxjs';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 
 describe('CoursesCardListComponent', () => {
@@ -14,10 +17,16 @@ describe('CoursesCardListComponent', () => {
     let component: CoursesCardListComponent;
     let fixture: ComponentFixture<CoursesCardListComponent>;
     let el: DebugElement;
+    let dialog: any;
 
     beforeEach(waitForAsync(() => {
+        const dialogSpy = jasmine.createSpyObj('MatDialog', ['open']);
+
         TestBed.configureTestingModule({
-            imports: [CoursesModule]
+            imports: [CoursesModule, NoopAnimationsModule],
+            providers: [
+                { provide: MatDialog, useValue: dialogSpy }
+            ]
         })
         .compileComponents()
         .then(() => {
@@ -25,6 +34,7 @@ describe('CoursesCardListComponent', () => {
             fixture = TestBed.createComponent(CoursesCardListComponent);
             component = fixture.componentInstance;
             el = fixture.debugElement;
+            dialog = TestBed.inject(MatDialog);
 
         });
     }));
@@ -66,6 +76,53 @@ describe('CoursesCardListComponent', () => {
 
         expect(image.nativeElement.src).toBe(course.iconUrl);
 
+    });
+
+    it('should call ngOnInit without errors', () => {
+        expect(() => component.ngOnInit()).not.toThrow();
+    });
+
+    it('should emit courseEdited when dialog closes with value', () => {
+        const mockCourse = setupCourses()[0];
+        const dialogRefSpy = jasmine.createSpyObj('MatDialogRef', ['afterClosed']);
+        dialogRefSpy.afterClosed.and.returnValue(of({ description: 'Updated' }));
+        dialog.open.and.returnValue(dialogRefSpy);
+
+        spyOn(component.courseEdited, 'emit');
+
+        component.editCourse(mockCourse);
+
+        expect(dialog.open).toHaveBeenCalled();
+        expect(component.courseEdited.emit).toHaveBeenCalled();
+    });
+
+    it('should not emit courseEdited when dialog closes without value', () => {
+        const mockCourse = setupCourses()[0];
+        const dialogRefSpy = jasmine.createSpyObj('MatDialogRef', ['afterClosed']);
+        dialogRefSpy.afterClosed.and.returnValue(of(null));
+        dialog.open.and.returnValue(dialogRefSpy);
+
+        spyOn(component.courseEdited, 'emit');
+
+        component.editCourse(mockCourse);
+
+        expect(dialog.open).toHaveBeenCalled();
+        expect(component.courseEdited.emit).not.toHaveBeenCalled();
+    });
+
+    it('should open dialog with correct configuration', () => {
+        const mockCourse = setupCourses()[0];
+        const dialogRefSpy = jasmine.createSpyObj('MatDialogRef', ['afterClosed']);
+        dialogRefSpy.afterClosed.and.returnValue(of(null));
+        dialog.open.and.returnValue(dialogRefSpy);
+
+        component.editCourse(mockCourse);
+
+        expect(dialog.open).toHaveBeenCalled();
+        const dialogConfig = dialog.open.calls.mostRecent().args[1];
+        expect(dialogConfig.disableClose).toBe(true);
+        expect(dialogConfig.autoFocus).toBe(true);
+        expect(dialogConfig.data).toBe(mockCourse);
     });
 
 });
