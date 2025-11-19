@@ -146,6 +146,31 @@ describe('CoursesService', () => {
 
     });
 
+    it('should find lessons with custom parameters', () => {
+
+        coursesService.findLessons(12, 'test', 'desc', 1, 10)
+            .subscribe(lessons => {
+
+                expect(lessons).toBeTruthy();
+
+            });
+
+        const req = httpTestingController.expectOne(
+            req => req.url == '/api/lessons');
+
+        expect(req.request.method).toEqual("GET");
+        expect(req.request.params.get("courseId")).toEqual("12");
+        expect(req.request.params.get("filter")).toEqual("test");
+        expect(req.request.params.get("sortOrder")).toEqual("desc");
+        expect(req.request.params.get("pageNumber")).toEqual("1");
+        expect(req.request.params.get("pageSize")).toEqual("10");
+
+        req.flush({
+            payload: findLessonsForCourse(12)
+        });
+
+    });
+
     afterEach(() => {
 
         httpTestingController.verify();
