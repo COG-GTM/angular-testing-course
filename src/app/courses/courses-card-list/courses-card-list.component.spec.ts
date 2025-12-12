@@ -7,6 +7,7 @@ import {By} from '@angular/platform-browser';
 import {sortCoursesBySeqNo} from '../home/sort-course-by-seq';
 import {Course} from '../model/course';
 import {setupCourses} from '../common/setup-test-data';
+import { render, screen, within } from '@testing-library/angular';
 
 
 describe('CoursesCardListComponent', () => {
@@ -48,24 +49,30 @@ describe('CoursesCardListComponent', () => {
 
     });
 
-    it('should display the first course', () => {
+});
 
-        component.courses = setupCourses();
+describe('CoursesCardListComponent (Angular Testing Library)', () => {
 
-        fixture.detectChanges();
+    it('should display the first course', async () => {
+        const courses = setupCourses();
+        const firstCourse = courses[0];
 
-        const course = component.courses[0];
+        await render(CoursesCardListComponent, {
+            imports: [CoursesModule],
+            componentProperties: {
+                courses: courses
+            }
+        });
 
-        const card = el.query(By.css(".course-card:first-child")),
-                title = card.query(By.css("mat-card-title")),
-                image = card.query(By.css("img"));
+        const courseTitle = screen.getByText(firstCourse.titles.description);
+        expect(courseTitle).toBeTruthy();
 
-        expect(card).toBeTruthy("Could not find course card");
+        const courseCard = courseTitle.closest('mat-card') as HTMLElement;
+        expect(courseCard).toBeTruthy();
 
-        expect(title.nativeElement.textContent).toBe(course.titles.description);
-
-        expect(image.nativeElement.src).toBe(course.iconUrl);
-
+        const courseImage = within(courseCard).getByRole('img');
+        expect(courseImage).toBeTruthy();
+        expect(courseImage.getAttribute('src')).toBe(firstCourse.iconUrl);
     });
 
 });
