@@ -1,14 +1,19 @@
+# Angular Testing Course
 
-## Angular Testing Course
+[![Angular](https://img.shields.io/badge/Angular-v19-red.svg)](https://angular.io/)
+[![Node](https://img.shields.io/badge/Node-18%20LTS-green.svg)](https://nodejs.org/)
 
-This repository contains the code of the [Angular Testing Course](https://angular-university.io/course/angular-testing-course).
-
-This course repository is updated to Angular v19, and there is a  package-lock.json file available, for avoiding semantic versioning installation issues.
+This repository contains the code for the [Angular Testing Course](https://angular-university.io/course/angular-testing-course) from Angular University.
 
 ![Angular Testing Course](https://s3-us-west-1.amazonaws.com/angular-university/course-images/angular-testing-small.png)
 
+## Overview
 
-# Installation pre-requisites
+Learn how to test Angular applications using Jasmine, Karma, and Cypress. This course covers unit testing, integration testing, and end-to-end testing for Angular components, services, and more.
+
+The repository is updated to Angular v19 and includes a `package-lock.json` file to avoid semantic versioning installation issues.
+
+## Prerequisites
 
 Please install Node 18 Long Term Support Edition (LTE).
 
