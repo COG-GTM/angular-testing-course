@@ -7,6 +7,7 @@ import {By} from '@angular/platform-browser';
 import {sortCoursesBySeqNo} from '../home/sort-course-by-seq';
 import {Course} from '../model/course';
 import {setupCourses} from '../common/setup-test-data';
+import {render, screen} from '@testing-library/angular';
 
 
 describe('CoursesCardListComponent', () => {
@@ -48,23 +49,29 @@ describe('CoursesCardListComponent', () => {
 
     });
 
-    it('should display the first course', () => {
+});
 
-        component.courses = setupCourses();
+describe('CoursesCardListComponent (Angular Testing Library)', () => {
 
-        fixture.detectChanges();
+    it('should display the first course', async () => {
 
-        const course = component.courses[0];
+        const courses = setupCourses();
 
-        const card = el.query(By.css(".course-card:first-child")),
-                title = card.query(By.css("mat-card-title")),
-                image = card.query(By.css("img"));
+        await render(CoursesCardListComponent, {
+            imports: [CoursesModule],
+            componentProperties: { courses }
+        });
 
-        expect(card).toBeTruthy("Could not find course card");
+        const course = courses[0];
 
-        expect(title.nativeElement.textContent).toBe(course.titles.description);
+        // Verify the course title is visible using a user-centric text query
+        const titleElement = screen.getByText(course.titles.description);
+        expect(titleElement).toBeTruthy();
 
-        expect(image.nativeElement.src).toBe(course.iconUrl);
+        // Verify the course image src using role-based query
+        const images = screen.getAllByRole('img');
+        expect(images.length).toBeGreaterThan(0);
+        expect(images[0].getAttribute('src')).toBe(course.iconUrl);
 
     });
 
