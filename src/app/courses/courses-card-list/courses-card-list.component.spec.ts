@@ -7,6 +7,7 @@ import {By} from '@angular/platform-browser';
 import {sortCoursesBySeqNo} from '../home/sort-course-by-seq';
 import {Course} from '../model/course';
 import {setupCourses} from '../common/setup-test-data';
+import {render, screen} from '@testing-library/angular';
 
 
 describe('CoursesCardListComponent', () => {
@@ -48,23 +49,25 @@ describe('CoursesCardListComponent', () => {
 
     });
 
-    it('should display the first course', () => {
+    it('should display the first course', async () => {
 
-        component.courses = setupCourses();
+        const courses = setupCourses();
+        const firstCourse = courses[0];
 
-        fixture.detectChanges();
+        await render(CoursesCardListComponent, {
+            imports: [CoursesModule],
+            componentProperties: { courses: courses }
+        });
 
-        const course = component.courses[0];
+        // Verify the course title is displayed using a user-centric text query
+        const titleElement = screen.getByText(firstCourse.titles.description);
+        expect(titleElement).toBeTruthy();
 
-        const card = el.query(By.css(".course-card:first-child")),
-                title = card.query(By.css("mat-card-title")),
-                image = card.query(By.css("img"));
-
-        expect(card).toBeTruthy("Could not find course card");
-
-        expect(title.nativeElement.textContent).toBe(course.titles.description);
-
-        expect(image.nativeElement.src).toBe(course.iconUrl);
+        // Verify the course image is rendered with the correct src
+        // Material cards render images with mat-card-image directive; query by role
+        const images = screen.getAllByRole('img') as HTMLImageElement[];
+        const firstCourseImage = images.find(img => img.src === firstCourse.iconUrl);
+        expect(firstCourseImage).toBeTruthy();
 
     });
 
