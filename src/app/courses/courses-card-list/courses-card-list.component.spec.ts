@@ -7,6 +7,7 @@ import {By} from '@angular/platform-browser';
 import {sortCoursesBySeqNo} from '../home/sort-course-by-seq';
 import {Course} from '../model/course';
 import {setupCourses} from '../common/setup-test-data';
+import {render, screen} from '@testing-library/angular';
 
 
 describe('CoursesCardListComponent', () => {
@@ -48,23 +49,34 @@ describe('CoursesCardListComponent', () => {
 
     });
 
-    it('should display the first course', () => {
+});
 
-        component.courses = setupCourses();
+describe('CoursesCardListComponent (Angular Testing Library)', () => {
 
-        fixture.detectChanges();
+    it('should display the first course', async () => {
 
-        const course = component.courses[0];
+        const courses = setupCourses();
 
-        const card = el.query(By.css(".course-card:first-child")),
-                title = card.query(By.css("mat-card-title")),
-                image = card.query(By.css("img"));
+        await render(CoursesCardListComponent, {
+            imports: [CoursesModule],
+            componentInputs: {
+                courses: courses
+            }
+        });
 
-        expect(card).toBeTruthy("Could not find course card");
+        const course = courses[0];
 
-        expect(title.nativeElement.textContent).toBe(course.titles.description);
+        // Use getByText to find the course title in a user-centric way
+        const titleElement = screen.getByText(course.titles.description);
+        expect(titleElement).toBeTruthy();
 
-        expect(image.nativeElement.src).toBe(course.iconUrl);
+        // Navigate from the title to its parent card to find the associated image
+        const card = titleElement.closest('.course-card');
+        expect(card).toBeTruthy();
+
+        const image = card!.querySelector('img');
+        expect(image).toBeTruthy();
+        expect(image!.src).toBe(course.iconUrl);
 
     });
 
