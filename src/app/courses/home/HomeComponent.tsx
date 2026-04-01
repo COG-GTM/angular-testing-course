@@ -72,5 +72,47 @@ export const HomeComponent: React.FC<HomeComponentProps> = ({
     }
   }, [reloadCourses, onCourseEdited]);
 
-  return null; // Template will be added in the next commit
+  return (
+    <div className="container">
+      <h3>All Courses</h3>
+
+      {/* TODO: Replace with Material UI Tabs or equivalent React tab component.
+          Angular original uses <mat-tab-group> and <mat-tab> from @angular/material. */}
+      <div>
+        {/* Beginner Courses Tab — mirrors *ngIf="(beginnerCourses$ | async) as beginnerCourses" */}
+        {beginnerCourses.length > 0 && (
+          <div>
+            <h4>Beginners</h4>
+            {/* TODO: Replace with React version of CoursesCardListComponent.
+                Angular original: <courses-card-list [courses]="beginnerCourses"
+                                                     (courseEdited)="reloadCourses()"> */}
+            <div data-testid="beginner-courses">
+              {beginnerCourses.map((course) => (
+                <div key={course.id} className="course-card">
+                  <span>{course.titles.description}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Advanced Courses Tab — mirrors *ngIf="(advancedCourses$ | async) as advancedCourses" */}
+        {advancedCourses.length > 0 && (
+          <div>
+            <h4>Advanced</h4>
+            {/* TODO: Replace with React version of CoursesCardListComponent.
+                Angular original: <courses-card-list [courses]="advancedCourses"
+                                                     (courseEdited)="reloadCourses()"> */}
+            <div data-testid="advanced-courses">
+              {advancedCourses.map((course) => (
+                <div key={course.id} className="course-card">
+                  <span>{course.titles.description}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
 };
