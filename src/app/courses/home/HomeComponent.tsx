@@ -11,10 +11,21 @@ import { sortCoursesBySeqNo } from './sort-course-by-seq';
  * TODO: CoursesCardListComponent — the Angular child component <courses-card-list>
  *   needs a React equivalent. For now, we accept a render prop or use a placeholder.
  */
+/**
+ * TODO: CoursesCardList — once a React version of CoursesCardListComponent exists,
+ * replace CoursesCardListComponent type with the actual import.
+ */
+interface CoursesCardListProps {
+  courses: Course[];
+  onCourseEdited: () => void;
+}
+
 interface HomeComponentProps {
   fetchAllCourses: () => Promise<Course[]>;
   /** Optional callback when a course is edited (mirrors Angular's (courseEdited) event) */
   onCourseEdited?: () => void;
+  /** Optional React equivalent of Angular's <courses-card-list> component */
+  CoursesCardList?: React.ComponentType<CoursesCardListProps>;
 }
 
 /**
@@ -26,6 +37,7 @@ interface HomeComponentProps {
 export const HomeComponent: React.FC<HomeComponentProps> = ({
   fetchAllCourses,
   onCourseEdited,
+  CoursesCardList,
 }) => {
   const [beginnerCourses, setBeginnerCourses] = useState<Course[]>([]);
   const [advancedCourses, setAdvancedCourses] = useState<Course[]>([]);
@@ -87,11 +99,19 @@ export const HomeComponent: React.FC<HomeComponentProps> = ({
                 Angular original: <courses-card-list [courses]="beginnerCourses"
                                                      (courseEdited)="reloadCourses()"> */}
             <div data-testid="beginner-courses">
-              {beginnerCourses.map((course) => (
-                <div key={course.id} className="course-card">
-                  <span>{course.titles.description}</span>
-                </div>
-              ))}
+              {CoursesCardList ? (
+                <CoursesCardList
+                  courses={beginnerCourses}
+                  onCourseEdited={handleCourseEdited}
+                />
+              ) : (
+                /* Fallback placeholder until CoursesCardList React component is available */
+                beginnerCourses.map((course) => (
+                  <div key={course.id} className="course-card">
+                    <span>{course.titles.description}</span>
+                  </div>
+                ))
+              )}
             </div>
           </div>
         )}
@@ -104,11 +124,19 @@ export const HomeComponent: React.FC<HomeComponentProps> = ({
                 Angular original: <courses-card-list [courses]="advancedCourses"
                                                      (courseEdited)="reloadCourses()"> */}
             <div data-testid="advanced-courses">
-              {advancedCourses.map((course) => (
-                <div key={course.id} className="course-card">
-                  <span>{course.titles.description}</span>
-                </div>
-              ))}
+              {CoursesCardList ? (
+                <CoursesCardList
+                  courses={advancedCourses}
+                  onCourseEdited={handleCourseEdited}
+                />
+              ) : (
+                /* Fallback placeholder until CoursesCardList React component is available */
+                advancedCourses.map((course) => (
+                  <div key={course.id} className="course-card">
+                    <span>{course.titles.description}</span>
+                  </div>
+                ))
+              )}
             </div>
           </div>
         )}
