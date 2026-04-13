@@ -82,8 +82,14 @@ export const CourseComponent: React.FC<CourseComponentProps> = ({
     [course.id, loadLessons]
   );
 
-  // Replaces ngOnInit — initial data load
+  // Reset UI state and re-fetch when course changes
   useEffect(() => {
+    setSearchFilter('');
+    setSortDirection('asc');
+    sortDirectionRef.current = 'asc';
+    setPageIndex(0);
+    setPageSize(3);
+    pageSizeRef.current = 3;
     fetchLessons('', 'asc', 0, 3);
   }, [fetchLessons]);
 
