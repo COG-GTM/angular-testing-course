@@ -60,17 +60,23 @@ export const CourseComponent: React.FC<CourseComponentProps> = ({
   const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const sortDirectionRef = useRef<SortDirection>(sortDirection);
   const pageSizeRef = useRef<number>(pageSize);
+  const requestIdRef = useRef(0);
 
   const fetchLessons = useCallback(
     async (filter: string, sort: SortDirection, page: number, size: number) => {
+      const currentRequestId = ++requestIdRef.current;
       setLoading(true);
       try {
         const data = await loadLessons(course.id, filter, sort, page, size);
+        if (currentRequestId !== requestIdRef.current) return;
         setLessons(data);
       } catch {
+        if (currentRequestId !== requestIdRef.current) return;
         setLessons([]);
       } finally {
-        setLoading(false);
+        if (currentRequestId === requestIdRef.current) {
+          setLoading(false);
+        }
       }
     },
     [course.id, loadLessons]
