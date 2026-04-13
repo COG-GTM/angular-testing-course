@@ -67,6 +67,8 @@ export const CourseComponent: React.FC<CourseComponentProps> = ({
       try {
         const data = await loadLessons(course.id, filter, sort, page, size);
         setLessons(data);
+      } catch {
+        setLessons([]);
       } finally {
         setLoading(false);
       }
