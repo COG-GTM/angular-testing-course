@@ -124,6 +124,10 @@ export const CourseComponent: React.FC<CourseComponentProps> = ({
   }, []);
 
   const handleSortChange = () => {
+    if (debounceTimerRef.current) {
+      clearTimeout(debounceTimerRef.current);
+      debounceTimerRef.current = null;
+    }
     const newDirection: SortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
     setSortDirection(newDirection);
     sortDirectionRef.current = newDirection;
@@ -132,11 +136,19 @@ export const CourseComponent: React.FC<CourseComponentProps> = ({
   };
 
   const handlePageChange = (newPageIndex: number) => {
+    if (debounceTimerRef.current) {
+      clearTimeout(debounceTimerRef.current);
+      debounceTimerRef.current = null;
+    }
     setPageIndex(newPageIndex);
     fetchLessons(searchFilter, sortDirection, newPageIndex, pageSize);
   };
 
   const handlePageSizeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    if (debounceTimerRef.current) {
+      clearTimeout(debounceTimerRef.current);
+      debounceTimerRef.current = null;
+    }
     const newSize = Number(e.target.value);
     setPageSize(newSize);
     pageSizeRef.current = newSize;
