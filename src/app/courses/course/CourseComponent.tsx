@@ -84,6 +84,10 @@ export const CourseComponent: React.FC<CourseComponentProps> = ({
 
   // Reset UI state and re-fetch when course changes
   useEffect(() => {
+    if (debounceTimerRef.current) {
+      clearTimeout(debounceTimerRef.current);
+      debounceTimerRef.current = null;
+    }
     setSearchFilter('');
     setSortDirection('asc');
     sortDirectionRef.current = 'asc';
