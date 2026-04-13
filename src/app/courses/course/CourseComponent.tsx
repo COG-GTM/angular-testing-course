@@ -61,13 +61,15 @@ export const CourseComponent: React.FC<CourseComponentProps> = ({
   const sortDirectionRef = useRef<SortDirection>(sortDirection);
   const pageSizeRef = useRef<number>(pageSize);
   const requestIdRef = useRef(0);
+  const loadLessonsRef = useRef(loadLessons);
+  loadLessonsRef.current = loadLessons;
 
   const fetchLessons = useCallback(
     async (filter: string, sort: SortDirection, page: number, size: number) => {
       const currentRequestId = ++requestIdRef.current;
       setLoading(true);
       try {
-        const data = await loadLessons(course.id, filter, sort, page, size);
+        const data = await loadLessonsRef.current(course.id, filter, sort, page, size);
         if (currentRequestId !== requestIdRef.current) return;
         setLessons(data);
       } catch {
@@ -79,7 +81,7 @@ export const CourseComponent: React.FC<CourseComponentProps> = ({
         }
       }
     },
-    [course.id, loadLessons]
+    [course.id]
   );
 
   // Reset UI state and re-fetch when course changes
