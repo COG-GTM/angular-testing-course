@@ -58,6 +58,8 @@ export const CourseComponent: React.FC<CourseComponentProps> = ({
   const [pageIndex, setPageIndex] = useState(0);
   const [pageSize, setPageSize] = useState(3);
   const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const sortDirectionRef = useRef<SortDirection>(sortDirection);
+  const pageSizeRef = useRef<number>(pageSize);
 
   const fetchLessons = useCallback(
     async (filter: string, sort: SortDirection, page: number, size: number) => {
@@ -88,7 +90,7 @@ export const CourseComponent: React.FC<CourseComponentProps> = ({
 
     debounceTimerRef.current = setTimeout(() => {
       setPageIndex(0);
-      fetchLessons(value, sortDirection, 0, pageSize);
+      fetchLessons(value, sortDirectionRef.current, 0, pageSizeRef.current);
     }, 150);
   };
 
@@ -104,6 +106,7 @@ export const CourseComponent: React.FC<CourseComponentProps> = ({
   const handleSortChange = () => {
     const newDirection: SortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
     setSortDirection(newDirection);
+    sortDirectionRef.current = newDirection;
     setPageIndex(0);
     fetchLessons(searchFilter, newDirection, 0, pageSize);
   };
@@ -116,6 +119,7 @@ export const CourseComponent: React.FC<CourseComponentProps> = ({
   const handlePageSizeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newSize = Number(e.target.value);
     setPageSize(newSize);
+    pageSizeRef.current = newSize;
     setPageIndex(0);
     fetchLessons(searchFilter, sortDirection, 0, newSize);
   };
