@@ -22,7 +22,7 @@ function Home() {
     .sort((a, b) => a.seqNo - b.seqNo);
 
   return (
-    <div className="home-container container">
+    <div className="home-container">
       <h3>All Courses</h3>
       <div className="mat-tab-group">
         <div className="mat-tab-labels">

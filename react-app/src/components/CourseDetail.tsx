@@ -34,8 +34,10 @@ function CourseDetail() {
     <div className="course-detail">
       <div className="course-header">
         <img src={course.iconUrl} alt={course.titles.description} className="course-icon-large" />
-        <h2>{course.titles.description}</h2>
-        {course.titles.longDescription && <p>{course.titles.longDescription}</p>}
+        <div>
+          <h2>{course.titles.description}</h2>
+          {course.titles.longDescription && <p>{course.titles.longDescription}</p>}
+        </div>
       </div>
       <div className="lessons-section">
         <div className="search-bar">
