@@ -19,11 +19,13 @@ function CourseDetail() {
   }, [id]);
 
   useEffect(() => {
+    let cancelled = false;
     if (id) {
       findLessons(Number(id), searchTerm, 'asc', page, pageSize)
-        .then(setLessons)
+        .then((data) => { if (!cancelled) setLessons(data); })
         .catch(console.error);
     }
+    return () => { cancelled = true; };
   }, [id, searchTerm, page]);
 
   if (!course) return <div>Loading...</div>;
