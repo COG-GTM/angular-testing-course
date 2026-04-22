@@ -1,16 +1,13 @@
 
 
-import * as express from 'express';
-import {Application} from "express";
+import express, {Application} from 'express';
+import bodyParser from 'body-parser';
+import cors from 'cors';
 import {getAllCourses, getCourseById} from "./get-courses.route";
 import {searchLessons} from "./search-lessons.route";
 import {saveCourse} from './save-course.route';
 
-const bodyParser = require('body-parser');
-
 const app: Application = express();
-
-const cors = require('cors');
 
 app.use(cors({origin: true}));
 
