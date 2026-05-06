@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useMemo, useCallback } from 'react';
 import { Tabs, Tab, Box } from '@mui/material';
 import type { Course } from '../models/course';
 import { findAllCourses } from '../services/courses.service';
@@ -6,6 +6,12 @@ import { CoursesCardList } from '../components/CoursesCardList';
 
 function sortCoursesBySeqNo(c1: Course, c2: Course): number {
   return c1.seqNo - c2.seqNo;
+}
+
+interface CategoryTab {
+  key: string;
+  label: string;
+  courses: Course[];
 }
 
 export function HomePage() {
@@ -27,16 +33,25 @@ export function HomePage() {
     loadCourses();
   }, [loadCourses]);
 
+  const tabs = useMemo<CategoryTab[]>(() => {
+    const result: CategoryTab[] = [];
+    if (beginnerCourses.length > 0) result.push({ key: 'BEGINNER', label: 'Beginners', courses: beginnerCourses });
+    if (advancedCourses.length > 0) result.push({ key: 'ADVANCED', label: 'Advanced', courses: advancedCourses });
+    return result;
+  }, [beginnerCourses, advancedCourses]);
+
   const handleTabChange = (_: React.SyntheticEvent, newValue: number) => {
     setTabIndex(newValue);
   };
+
+  const activeTab = tabs[tabIndex];
 
   return (
     <div className="container">
       <h3>All Courses</h3>
       <Box>
         <Tabs
-          value={tabIndex}
+          value={tabs.length > 0 ? tabIndex : false}
           onChange={handleTabChange}
           textColor="primary"
           indicatorColor="primary"
@@ -45,15 +60,13 @@ export function HomePage() {
             '& .MuiTab-root': { color: 'rgba(0, 0, 0, 0.6)' },
           }}
         >
-          {beginnerCourses.length > 0 && <Tab label="Beginners" sx={{ textTransform: 'none', letterSpacing: '1.25px' }} />}
-          {advancedCourses.length > 0 && <Tab label="Advanced" sx={{ textTransform: 'none', letterSpacing: '1.25px' }} />}
+          {tabs.map((tab) => (
+            <Tab key={tab.key} label={tab.label} sx={{ textTransform: 'none', letterSpacing: '1.25px' }} />
+          ))}
         </Tabs>
       </Box>
-      {tabIndex === 0 && beginnerCourses.length > 0 && (
-        <CoursesCardList courses={beginnerCourses} onCourseEdited={loadCourses} />
-      )}
-      {tabIndex === 1 && advancedCourses.length > 0 && (
-        <CoursesCardList courses={advancedCourses} onCourseEdited={loadCourses} />
+      {activeTab && (
+        <CoursesCardList courses={activeTab.courses} onCourseEdited={loadCourses} />
       )}
     </div>
   );

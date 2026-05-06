@@ -60,6 +60,7 @@ export function CoursesCardList({ courses, onCourseEdited }: Props) {
         description: formData.description,
         longDescription: formData.longDescription,
       },
+      category: formData.category,
     });
     setDialogOpen(false);
     setEditingCourse(null);
