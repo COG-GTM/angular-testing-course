@@ -1,0 +1,16 @@
+.container h1 {
+  font-size: 2em;
+  font-weight: bold;
+  line-height: 1.2;
+  margin: 0.67em 0;
+}
+
+.container p {
+  font-size: 16px;
+  line-height: 19px;
+  margin: 1em 0;
+}
+
+.course-logo {
+  border-radius: 4px;
+}

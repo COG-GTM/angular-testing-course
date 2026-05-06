@@ -1,0 +1,43 @@
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: 16px !important;
+}
+
+html, body {
+  height: 100%;
+}
+
+.container {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.container h3 {
+  font-size: 18.72px;
+  font-weight: bold;
+  line-height: 22px;
+  margin: 18.72px 0 18.72px 0;
+}
+
+.MuiToolbar-root .MuiButton-root {
+  letter-spacing: 0.0892857143em;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: none !important;
+  padding: 0 8px;
+  height: 36px;
+  line-height: 36px;
+}
+
+.mat-elevation-z7 {
+  box-shadow: 0 4px 5px -2px #0003, 0 7px 10px 1px #00000024, 0 2px 16px 1px #0000001f !important;
+}
+
+.mat-elevation-z10 {
+  box-shadow: 0 6px 6px -3px #0003, 0 10px 14px 1px #00000024, 0 4px 18px 3px #0000001f !important;
+}
+
+.course-image {
+  box-shadow: 0 6px 6px -3px #0003, 0 10px 14px 1px #00000024, 0 4px 18px 3px #0000001f;
+}
