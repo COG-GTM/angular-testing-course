@@ -103,7 +103,7 @@ export function CoursesCardList({ courses, onCourseEdited }: Props) {
         </Card>
       ))}
 
-      <Dialog open={dialogOpen} onClose={(_event, reason) => { if (reason !== 'escapeKeyDown') handleClose(); }}>
+      <Dialog open={dialogOpen} onClose={() => {}}>
         {editingCourse && (
           <>
             <DialogTitle>{editingCourse.titles.description}</DialogTitle>
