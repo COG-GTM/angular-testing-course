@@ -40,18 +40,25 @@ export function HomePage() {
     return result;
   }, [beginnerCourses, advancedCourses]);
 
+  useEffect(() => {
+    if (tabIndex >= tabs.length && tabs.length > 0) {
+      setTabIndex(0);
+    }
+  }, [tabs.length, tabIndex]);
+
   const handleTabChange = (_: React.SyntheticEvent, newValue: number) => {
     setTabIndex(newValue);
   };
 
-  const activeTab = tabs[tabIndex];
+  const safeIndex = Math.min(tabIndex, tabs.length - 1);
+  const activeTab = tabs.length > 0 ? tabs[safeIndex] : undefined;
 
   return (
     <div className="container">
       <h3>All Courses</h3>
       <Box>
         <Tabs
-          value={tabs.length > 0 ? tabIndex : false}
+          value={tabs.length > 0 ? safeIndex : false}
           onChange={handleTabChange}
           textColor="primary"
           indicatorColor="primary"

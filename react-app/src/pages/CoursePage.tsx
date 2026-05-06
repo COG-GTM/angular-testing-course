@@ -28,6 +28,10 @@ export function CoursePage() {
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(3);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const sortDirectionRef = useRef(sortDirection);
+  const pageSizeRef = useRef(pageSize);
+  sortDirectionRef.current = sortDirection;
+  pageSizeRef.current = pageSize;
 
   const loadLessons = useCallback(
     async (
@@ -66,12 +70,13 @@ export function CoursePage() {
     debounceRef.current = setTimeout(() => {
       if (course) {
         setPage(0);
-        loadLessons(course.id, val, sortDirection, 0, pageSize);
+        loadLessons(course.id, val, sortDirectionRef.current, 0, pageSizeRef.current);
       }
     }, 150);
   };
 
   const handleSortChange = () => {
+    if (debounceRef.current) clearTimeout(debounceRef.current);
     const newDir = sortDirection === 'asc' ? 'desc' : 'asc';
     setSortDirection(newDir);
     setPage(0);
@@ -81,6 +86,7 @@ export function CoursePage() {
   };
 
   const handlePageChange = (_: unknown, newPage: number) => {
+    if (debounceRef.current) clearTimeout(debounceRef.current);
     setPage(newPage);
     if (course) {
       loadLessons(course.id, filter, sortDirection, newPage, pageSize);
@@ -88,6 +94,7 @@ export function CoursePage() {
   };
 
   const handleRowsPerPageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (debounceRef.current) clearTimeout(debounceRef.current);
     const newSize = parseInt(e.target.value, 10);
     setPageSize(newSize);
     setPage(0);
