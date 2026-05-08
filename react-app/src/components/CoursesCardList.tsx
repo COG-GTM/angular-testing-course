@@ -32,7 +32,6 @@ function CoursesCardList({ courses, onCourseEdited }: CoursesCardListProps) {
         <Card
           key={course.id}
           sx={{
-            maxWidth: 400,
             margin: '20px 10px',
             boxShadow: '0 6px 6px -3px #0003, 0 10px 14px 1px #00000024, 0 4px 18px 3px #0000001f',
           }}
@@ -43,14 +42,15 @@ function CoursesCardList({ courses, onCourseEdited }: CoursesCardListProps) {
                 {course.titles.description}
               </Typography>
             }
+            sx={{ pb: 0 }}
           />
           <CardMedia
             component="img"
             image={course.iconUrl}
             alt={course.titles.description}
           />
-          <CardContent>
-            <Typography variant="body2" color="text.secondary">
+          <CardContent sx={{ pt: 0, pb: 1, '&:last-child': { pb: 1 } }}>
+            <Typography variant="body1">
               {course.titles.longDescription}
             </Typography>
           </CardContent>

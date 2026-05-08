@@ -4,10 +4,15 @@ import Typography from '@mui/material/Typography';
 function About() {
   return (
     <Box className="container" sx={{ maxWidth: 400, margin: '0 auto' }}>
-      <Typography variant="h4" component="h1" gutterBottom>
+      <Typography
+        variant="h1"
+        component="h1"
+        gutterBottom
+        sx={{ fontSize: '2em', fontWeight: 'bold', mt: '0.67em', mb: '0.67em' }}
+      >
         Welcome!
       </Typography>
-      <Typography variant="body1" gutterBottom>
+      <Typography variant="body1" component="p" gutterBottom>
         Welcome to the Angular Testing Course
       </Typography>
       <Box

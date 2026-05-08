@@ -18,6 +18,29 @@ const theme = createTheme({
   typography: {
     fontFamily: 'Roboto, "Helvetica Neue", sans-serif',
   },
+  components: {
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          textTransform: 'none',
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          textTransform: 'none',
+        },
+      },
+    },
+    MuiDialogActions: {
+      styleOverrides: {
+        root: {
+          justifyContent: 'flex-start',
+        },
+      },
+    },
+  },
 });
 
 export default theme;

@@ -8,7 +8,6 @@ import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -40,23 +39,24 @@ function CourseEditDialog({ course, open, onClose }: CourseEditDialogProps) {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <Dialog open={open} onClose={() => onClose(false)} disableEscapeKeyDown>
+      <Dialog open={open} onClose={() => onClose(false)} disableEscapeKeyDown maxWidth="xs" fullWidth slotProps={{ backdrop: { sx: { backgroundColor: 'rgba(0,0,0,0.32)' } } }}>
         <DialogTitle>{course.titles.description}</DialogTitle>
         <DialogContent>
           <TextField
             fullWidth
-            label="Course Description"
+            variant="standard"
+            placeholder="Course Description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             margin="normal"
-            required
+            InputProps={{ sx: { backgroundColor: 'rgba(0,0,0,0.04)', borderTopLeftRadius: 4, borderTopRightRadius: 4, px: 1.5, pt: 1 } }}
           />
-          <FormControl fullWidth margin="normal" required>
-            <InputLabel>Select category</InputLabel>
+          <FormControl fullWidth margin="normal" variant="standard">
             <Select
               value={category}
-              label="Select category"
+              displayEmpty
               onChange={(e) => setCategory(e.target.value)}
+              sx={{ backgroundColor: 'rgba(0,0,0,0.04)', borderTopLeftRadius: 4, borderTopRightRadius: 4, px: 1.5, pt: 1 }}
             >
               <MenuItem value="BEGINNER">Beginner</MenuItem>
               <MenuItem value="INTERMEDIATE">Intermediate</MenuItem>
@@ -66,26 +66,28 @@ function CourseEditDialog({ course, open, onClose }: CourseEditDialogProps) {
           <DatePicker
             value={releasedAt}
             onChange={(val) => setReleasedAt(val)}
+            format="M/D/YYYY"
             slotProps={{
-              textField: { fullWidth: true, margin: 'normal' },
+              textField: { fullWidth: true, margin: 'normal', variant: 'standard', InputProps: { sx: { backgroundColor: 'rgba(0,0,0,0.04)', borderTopLeftRadius: 4, borderTopRightRadius: 4, px: 1.5, pt: 1 } } },
             }}
           />
           <TextField
             fullWidth
-            label="Description"
+            variant="standard"
+            placeholder="Description"
             value={longDescription}
             onChange={(e) => setLongDescription(e.target.value)}
             margin="normal"
             multiline
             rows={4}
-            required
+            InputProps={{ sx: { backgroundColor: 'rgba(0,0,0,0.04)', borderTopLeftRadius: 4, borderTopRightRadius: 4, px: 1.5, pt: 1 } }}
           />
         </DialogContent>
         <DialogActions>
-          <Button variant="contained" onClick={() => onClose(false)}>
+          <Button variant="contained" color="inherit" onClick={() => onClose(false)}>
             Close
           </Button>
-          <Button variant="contained" color="primary" onClick={handleSave}>
+          <Button variant="contained" color="inherit" onClick={handleSave}>
             Save
           </Button>
         </DialogActions>

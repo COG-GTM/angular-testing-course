@@ -44,6 +44,7 @@ function Home() {
         onChange={handleTabChange}
         textColor="primary"
         indicatorColor="primary"
+        variant="fullWidth"
       >
         <Tab label="Beginners" value="beginners" />
         <Tab label="Advanced" value="advanced" />
