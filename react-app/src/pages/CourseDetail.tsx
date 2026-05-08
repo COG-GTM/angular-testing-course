@@ -148,9 +148,8 @@ function CourseDetail() {
       />
       <TextField
         fullWidth
-        label="Search lessons"
-        variant="outlined"
-        size="small"
+        placeholder="Search lessons"
+        variant="standard"
         inputRef={searchRef}
         onKeyUp={handleSearchKeyUp}
         sx={{ mb: 2 }}

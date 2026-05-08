@@ -33,6 +33,7 @@ function CourseEditDialog({ course, open, onClose }: CourseEditDialogProps) {
   const handleSave = async () => {
     await saveCourse(course.id, {
       titles: { description, longDescription },
+      category,
     });
     onClose(true);
   };

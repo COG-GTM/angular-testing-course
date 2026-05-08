@@ -14,7 +14,7 @@ function sortBySeqNo(c1: Course, c2: Course): number {
 function Home() {
   const [beginnerCourses, setBeginnerCourses] = useState<Course[]>([]);
   const [advancedCourses, setAdvancedCourses] = useState<Course[]>([]);
-  const [tabIndex, setTabIndex] = useState(0);
+  const [tabValue, setTabValue] = useState<'beginners' | 'advanced'>('beginners');
 
   const loadCourses = useCallback(async () => {
     const courses = await findAllCourses();
@@ -30,23 +30,28 @@ function Home() {
     loadCourses();
   }, [loadCourses]);
 
-  const handleTabChange = (_: React.SyntheticEvent, newValue: number) => {
-    setTabIndex(newValue);
+  const handleTabChange = (_: React.SyntheticEvent, newValue: 'beginners' | 'advanced') => {
+    setTabValue(newValue);
   };
 
   return (
     <Box sx={{ maxWidth: 400, margin: '0 auto' }}>
-      <Typography variant="h5" component="h3" sx={{ mt: 2, mb: 1, ml: 1 }}>
+      <Typography variant="h6" component="h3" sx={{ mt: 2, mb: 1 }}>
         All Courses
       </Typography>
-      <Tabs value={tabIndex} onChange={handleTabChange}>
-        {beginnerCourses.length > 0 && <Tab label="Beginners" />}
-        {advancedCourses.length > 0 && <Tab label="Advanced" />}
+      <Tabs
+        value={tabValue}
+        onChange={handleTabChange}
+        textColor="primary"
+        indicatorColor="primary"
+      >
+        <Tab label="Beginners" value="beginners" />
+        <Tab label="Advanced" value="advanced" />
       </Tabs>
-      {tabIndex === 0 && beginnerCourses.length > 0 && (
+      {tabValue === 'beginners' && (
         <CoursesCardList courses={beginnerCourses} onCourseEdited={loadCourses} />
       )}
-      {tabIndex === 1 && advancedCourses.length > 0 && (
+      {tabValue === 'advanced' && (
         <CoursesCardList courses={advancedCourses} onCourseEdited={loadCourses} />
       )}
     </Box>
