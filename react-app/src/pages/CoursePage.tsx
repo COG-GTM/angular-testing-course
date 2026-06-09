@@ -63,7 +63,11 @@ export default function CoursePage() {
           setLessons([]);
         }
       })
-      .finally(() => setLoading(false));
+      .finally(() => {
+        if (!controller.signal.aborted) {
+          setLoading(false);
+        }
+      });
     return () => controller.abort();
   }, [courseId, filter, sortDirection, pageIndex, pageSize]);
 
