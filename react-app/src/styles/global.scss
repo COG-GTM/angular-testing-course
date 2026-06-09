@@ -1,0 +1,335 @@
+// Global theme for the React port of the Angular Testing Course app.
+// Reimplements the original Angular Material look (teal primary / red accent)
+// with plain CSS to avoid pulling in a new UI library.
+
+// Palette (Material m2 teal 500 primary, red A200 accent)
+$primary: #009688;
+$primary-contrast: #ffffff;
+$accent: #ff5252;
+$accent-contrast: #ffffff;
+$dark-primary-text: rgba(0, 0, 0, 0.87);
+$background: #fafafa;
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  background-color: $background;
+  color: $dark-primary-text;
+}
+
+main {
+  margin: 30px;
+}
+
+// ---- Elevation helpers (match the original mat-elevation classes) ----
+.mat-elevation-z6 {
+  box-shadow: 0 3px 5px -1px #0003, 0 6px 10px #00000024, 0 1px 18px #0000001f;
+}
+
+.mat-elevation-z8 {
+  box-shadow: 0 5px 5px -3px #0003, 0 8px 10px 1px #00000024, 0 3px 14px 2px #0000001f;
+}
+
+.mat-elevation-z10 {
+  box-shadow: 0 6px 6px -3px #0003, 0 10px 14px 1px #00000024, 0 4px 18px 3px #0000001f;
+}
+
+// ---- Toolbar ----
+.mat-toolbar {
+  display: flex;
+  align-items: center;
+  height: 64px;
+  padding: 0 8px;
+  background-color: $primary;
+  color: $primary-contrast;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.mat-toolbar a {
+  color: inherit;
+  text-decoration: none;
+}
+
+// ---- Buttons ----
+.mat-button,
+.mat-raised-button {
+  display: inline-block;
+  border: none;
+  border-radius: 4px;
+  padding: 0 16px;
+  height: 36px;
+  line-height: 36px;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  cursor: pointer;
+  background: transparent;
+  color: inherit;
+  font-family: inherit;
+  text-decoration: none;
+  letter-spacing: 0.5px;
+}
+
+.mat-button {
+  background: transparent;
+}
+
+.mat-button:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.mat-raised-button {
+  box-shadow: 0 3px 1px -2px #0003, 0 2px 2px #00000024, 0 1px 5px #0000001f;
+}
+
+.mat-raised-button.primary {
+  background-color: $primary;
+  color: $primary-contrast;
+}
+
+.mat-raised-button.accent {
+  background-color: $accent;
+  color: $accent-contrast;
+}
+
+.mat-raised-button.basic {
+  background-color: #fff;
+  color: $dark-primary-text;
+}
+
+.mat-raised-button:disabled {
+  background-color: rgba(0, 0, 0, 0.12);
+  color: rgba(0, 0, 0, 0.26);
+  cursor: default;
+  box-shadow: none;
+}
+
+// ---- Container ----
+.container {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+// ---- Cards ----
+.mat-card {
+  display: block;
+  background: #fff;
+  border-radius: 4px;
+  padding: 16px;
+}
+
+.mat-card-title {
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+
+.mat-card-image {
+  width: calc(100% + 32px);
+  margin: 0 -16px 16px -16px;
+  display: block;
+}
+
+.mat-card-content p {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 14px;
+}
+
+// ---- Tabs ----
+.mat-tab-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.mat-tab-header {
+  display: flex;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.mat-tab-label {
+  flex: 1;
+  text-align: center;
+  padding: 14px 24px;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.6);
+  border: none;
+  background: transparent;
+  font-family: inherit;
+}
+
+.mat-tab-label.active {
+  color: $primary;
+  border-bottom: 2px solid $primary;
+}
+
+.mat-tab-body {
+  padding-top: 8px;
+}
+
+// ---- Form fields ----
+.mat-form-field {
+  display: inline-block;
+  position: relative;
+  margin: 8px 0;
+}
+
+.mat-form-field label {
+  display: block;
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.6);
+  margin-bottom: 4px;
+}
+
+.mat-form-field input,
+.mat-form-field select,
+.mat-form-field textarea {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.42);
+  padding: 6px 0;
+  font-size: 16px;
+  font-family: inherit;
+  background: transparent;
+  outline: none;
+}
+
+.mat-form-field input:focus,
+.mat-form-field select:focus,
+.mat-form-field textarea:focus {
+  border-bottom: 2px solid $primary;
+}
+
+// ---- Table ----
+.mat-table {
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+}
+
+.mat-header-row,
+.mat-row {
+  display: table-row;
+}
+
+.mat-header-cell,
+.mat-cell {
+  display: table-cell;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+.mat-header-cell {
+  color: rgba(0, 0, 0, 0.54);
+  font-weight: 500;
+  user-select: none;
+}
+
+.mat-header-cell.sortable {
+  cursor: pointer;
+}
+
+.mat-header-cell .sort-arrow {
+  font-size: 12px;
+  margin-left: 4px;
+}
+
+// ---- Paginator ----
+.mat-paginator {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+  padding: 8px 16px;
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.54);
+  background: #fff;
+}
+
+.mat-paginator select {
+  font-family: inherit;
+  font-size: 12px;
+}
+
+.mat-paginator button {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 4px 8px;
+}
+
+.mat-paginator button:disabled {
+  color: rgba(0, 0, 0, 0.26);
+  cursor: default;
+}
+
+// ---- Spinner ----
+.mat-spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid rgba(0, 150, 136, 0.2);
+  border-top-color: $primary;
+  border-radius: 50%;
+  animation: mat-spin 1s linear infinite;
+}
+
+@keyframes mat-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// ---- Dialog ----
+.mat-dialog-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.32);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.mat-dialog-container {
+  background: #fff;
+  border-radius: 4px;
+  padding: 24px;
+  width: 500px;
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow: auto;
+  box-shadow: 0 11px 15px -7px #0003, 0 24px 38px 3px #00000024, 0 9px 46px 8px #0000001f;
+}
+
+.mat-dialog-title {
+  margin: 0 0 16px 0;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.mat-dialog-content {
+  display: block;
+}
+
+.mat-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+}

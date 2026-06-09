@@ -1,20 +1,15 @@
 
 language: node_js
 node_js:
-  - 12
-addons:
-  apt:
-    packages:
-      # Ubuntu 16+ does not install this dependency by default, so we need to install it ourselves
-      - libgconf-2-4
+  - 20
 cache:
-  # Caches $HOME/.npm when npm ci is default script command
-  # Caches node_modules in all other cases
   npm: true
   directories:
-    # we also need to cache folder with Cypress binary
-    - ~/.cache
+    - ~/.npm
+    - react-app/node_modules
 install:
-  - npm ci
+  - cd react-app && npm ci
 script:
-  - npm run e2e
+  - cd react-app && npm run lint
+  - cd react-app && npm run test
+  - cd react-app && npm run build
