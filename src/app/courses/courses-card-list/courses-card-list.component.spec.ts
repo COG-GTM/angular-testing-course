@@ -1,73 +1,51 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {render, screen} from '@testing-library/angular';
 import {CoursesCardListComponent} from './courses-card-list.component';
 import {CoursesModule} from '../courses.module';
-import {COURSES} from '../../../../server/db-data';
-import {DebugElement} from '@angular/core';
-import {By} from '@angular/platform-browser';
-import {sortCoursesBySeqNo} from '../home/sort-course-by-seq';
-import {Course} from '../model/course';
 import {setupCourses} from '../common/setup-test-data';
-
 
 describe('CoursesCardListComponent', () => {
 
-    let component: CoursesCardListComponent;
-    let fixture: ComponentFixture<CoursesCardListComponent>;
-    let el: DebugElement;
+    async function renderComponent() {
+        const courses = setupCourses();
 
-    beforeEach(waitForAsync(() => {
-        TestBed.configureTestingModule({
-            imports: [CoursesModule]
-        })
-        .compileComponents()
-        .then(() => {
-
-            fixture = TestBed.createComponent(CoursesCardListComponent);
-            component = fixture.componentInstance;
-            el = fixture.debugElement;
-
+        const {fixture} = await render(CoursesCardListComponent, {
+            imports: [CoursesModule],
+            inputs: {courses}
         });
-    }));
 
-    it('should create the component', () => {
+        return {courses, fixture};
+    }
 
-        expect(component).toBeTruthy();
+    it('should create the component', async () => {
 
-    });
+        const {fixture} = await renderComponent();
 
-    it('should display the course list', () => {
-
-        component.courses = setupCourses();
-
-        fixture.detectChanges();
-
-        const cards = el.queryAll(By.css(".course-card"));
-
-        expect(cards).toBeTruthy("Could not find cards");
-        expect(cards.length).toBe(12, "Unexpected number of courses");
+        expect(fixture.componentInstance).toBeTruthy();
 
     });
 
-    it('should display the first course', () => {
+    it('should display the course list', async () => {
 
-        component.courses = setupCourses();
+        await renderComponent();
 
-        fixture.detectChanges();
+        const cards = screen.getAllByText(/./, {selector: 'mat-card-title'});
 
-        const course = component.courses[0];
+        expect(cards.length).toBe(12);
 
-        const card = el.query(By.css(".course-card:first-child")),
-                title = card.query(By.css("mat-card-title")),
-                image = card.query(By.css("img"));
+    });
 
-        expect(card).toBeTruthy("Could not find course card");
+    it('should display the first course', async () => {
 
-        expect(title.nativeElement.textContent).toBe(course.titles.description);
+        const {courses} = await renderComponent();
 
-        expect(image.nativeElement.src).toBe(course.iconUrl);
+        const firstCourse = courses[0];
+
+        expect(screen.getByText(firstCourse.titles.description)).toBeTruthy();
+
+        const images = screen.getAllByRole('img');
+
+        expect(images[0].getAttribute('src')).toBe(firstCourse.iconUrl);
 
     });
 
 });
-
-
