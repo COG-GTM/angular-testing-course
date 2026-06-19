@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {render, screen} from '@testing-library/angular';
 import {CoursesCardListComponent} from './courses-card-list.component';
 import {CoursesModule} from '../courses.module';
 import {COURSES} from '../../../../server/db-data';
@@ -48,23 +49,27 @@ describe('CoursesCardListComponent', () => {
 
     });
 
-    it('should display the first course', () => {
+});
 
-        component.courses = setupCourses();
+describe('CoursesCardListComponent (Testing Library)', () => {
 
-        fixture.detectChanges();
+    it('should display the first course', async () => {
 
-        const course = component.courses[0];
+        const courses = setupCourses();
 
-        const card = el.query(By.css(".course-card:first-child")),
-                title = card.query(By.css("mat-card-title")),
-                image = card.query(By.css("img"));
+        await render(CoursesCardListComponent, {
+            imports: [CoursesModule],
+            excludeComponentDeclaration: true,
+            componentProperties: {courses}
+        });
 
-        expect(card).toBeTruthy("Could not find course card");
+        const firstCourse = courses[0];
 
-        expect(title.nativeElement.textContent).toBe(course.titles.description);
+        expect(screen.getByText(firstCourse.titles.description)).toBeTruthy();
 
-        expect(image.nativeElement.src).toBe(course.iconUrl);
+        const image = screen.getAllByRole('img')[0] as HTMLImageElement;
+
+        expect(image.src).toBe(firstCourse.iconUrl);
 
     });
 
