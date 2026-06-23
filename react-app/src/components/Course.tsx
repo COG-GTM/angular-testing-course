@@ -86,7 +86,8 @@ export default function Course() {
       <TextField
         className="search-field"
         variant="filled"
-        label="Search lessons"
+        hiddenLabel
+        placeholder="Search lessons"
         value={filter}
         onChange={(e) => setFilter(e.target.value)}
       />

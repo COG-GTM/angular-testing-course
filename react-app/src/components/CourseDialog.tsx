@@ -46,7 +46,8 @@ export default function CourseDialog({ course, onClose }: CourseDialogProps) {
         <TextField
           className="dialog-field"
           variant="filled"
-          label="Course Description"
+          hiddenLabel
+          placeholder="Course Description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
@@ -55,7 +56,7 @@ export default function CourseDialog({ course, onClose }: CourseDialogProps) {
           className="dialog-field"
           variant="filled"
           select
-          label="Select category"
+          hiddenLabel
           value={category}
           onChange={(e) => setCategory(e.target.value)}
         >
@@ -68,13 +69,16 @@ export default function CourseDialog({ course, onClose }: CourseDialogProps) {
           className="dialog-field"
           value={releasedAt}
           onChange={(value) => setReleasedAt(value)}
-          slotProps={{ textField: { variant: 'filled', fullWidth: true } }}
+          slotProps={{
+            textField: { variant: 'filled', fullWidth: true, hiddenLabel: true },
+          }}
         />
 
         <TextField
           className="dialog-field"
           variant="filled"
-          label="Description"
+          hiddenLabel
+          placeholder="Description"
           multiline
           minRows={4}
           value={longDescription}
