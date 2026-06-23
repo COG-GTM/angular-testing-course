@@ -1,0 +1,10 @@
+.dialog-field {
+  display: block;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.dialog-field textarea {
+  height: 100px;
+  resize: vertical;
+}

@@ -1,0 +1,8 @@
+/*
+ * The Angular template sets two class attributes on the image
+ * (class="course-logo" class="course-image mat-elevation-z10"); the browser
+ * keeps the latter, so the image renders at natural size with a z10 shadow.
+ */
+.course-image {
+  display: block;
+}
