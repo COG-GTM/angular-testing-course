@@ -43,6 +43,7 @@ export default function Home() {
         onChange={(_, value) => setSelectedTab(value)}
         textColor="primary"
         indicatorColor="primary"
+        variant="fullWidth"
       >
         {tabs.map((tab) => (
           <Tab key={tab.label} label={tab.label} />

@@ -39,7 +39,7 @@ export default function CoursesCardList({
 
           <CardMedia component="img" image={course.iconUrl} />
 
-          <CardContent>
+          <CardContent sx={{ pb: 0 }}>
             <p>{course.titles.longDescription}</p>
           </CardContent>
 
