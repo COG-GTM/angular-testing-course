@@ -1,0 +1,34 @@
+/* Ported from Angular src/styles.scss and app.component.css */
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background: #fafafa;
+}
+
+main {
+  margin: 30px;
+}
+
+.container {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+/* Material elevation classes (z8 from Angular Material defaults) */
+.mat-elevation-z8 {
+  box-shadow: 0 5px 5px -3px #0003, 0 8px 10px 1px #00000024, 0 3px 14px 2px #0000001f;
+}
+
+/* Material elevation overrides ported from src/styles.scss */
+.mat-elevation-z7 {
+  box-shadow: 0 4px 5px -2px #0003, 0 7px 10px 1px #00000024, 0 2px 16px 1px #0000001f !important;
+}
+
+.mat-elevation-z10 {
+  box-shadow: 0 6px 6px -3px #0003, 0 10px 14px 1px #00000024, 0 4px 18px 3px #0000001f !important;
+}
