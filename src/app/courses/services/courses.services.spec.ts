@@ -3,7 +3,7 @@ import {TestBed} from '@angular/core/testing';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import {COURSES, findLessonsForCourse} from '../../../../server/db-data';
 import {Course} from '../model/course';
-import { HttpErrorResponse, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HttpErrorResponse, provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 
 
 describe('CoursesService', () => {
@@ -17,7 +17,7 @@ describe('CoursesService', () => {
     imports: [],
     providers: [
         CoursesService,
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting()
     ]
 });
