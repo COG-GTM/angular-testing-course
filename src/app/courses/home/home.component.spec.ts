@@ -1,41 +1,30 @@
-import { ComponentFixture, fakeAsync, flush, flushMicrotasks, TestBed, tick, waitForAsync } from '@angular/core/testing';
-import {CoursesModule} from '../courses.module';
-import {DebugElement} from '@angular/core';
-
-import {HomeComponent} from './home.component';
-import { HttpTestingController } from '@angular/common/http/testing';
-import {CoursesService} from '../services/courses.service';
-import { HttpClient } from '@angular/common/http';
-import {COURSES} from '../../../../server/db-data';
-import {setupCourses} from '../common/setup-test-data';
-import {By} from '@angular/platform-browser';
+import {render, screen, within} from '@testing-library/angular';
+import userEvent from '@testing-library/user-event';
 import {of} from 'rxjs';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
-import {click} from '../common/test-utils';
 
-
+import {HomeComponent} from './home.component';
+import {CoursesModule} from '../courses.module';
+import {CoursesService} from '../services/courses.service';
+import {Course} from '../model/course';
+import {setupCourses} from '../common/setup-test-data';
 
 
 describe('HomeComponent', () => {
 
-  let fixture: ComponentFixture<HomeComponent>;
-  let component:HomeComponent;
-  let el: DebugElement;
-  let coursesService: any;
-
   const beginnerCourses = setupCourses()
       .filter(course => course.category == 'BEGINNER');
 
-    const advancedCourses = setupCourses()
-        .filter(course => course.category == 'ADVANCED');
+  const advancedCourses = setupCourses()
+      .filter(course => course.category == 'ADVANCED');
 
+  const renderComponent = (courses: Course[]) => {
 
+      const coursesServiceSpy = jasmine.createSpyObj('CoursesService', ['findAllCourses']);
 
-  beforeEach(waitForAsync(() => {
+      coursesServiceSpy.findAllCourses.and.returnValue(of(courses));
 
-      const coursesServiceSpy = jasmine.createSpyObj('CoursesService', ['findAllCourses'])
-
-      TestBed.configureTestingModule({
+      return render(HomeComponent, {
           imports: [
               CoursesModule,
               NoopAnimationsModule
@@ -43,133 +32,59 @@ describe('HomeComponent', () => {
           providers: [
               {provide: CoursesService, useValue: coursesServiceSpy}
           ]
-      }).compileComponents()
-          .then(() => {
-              fixture = TestBed.createComponent(HomeComponent);
-              component = fixture.componentInstance;
-              el = fixture.debugElement;
-              coursesService = TestBed.inject(CoursesService);
-          });
+      });
+  };
 
-  }));
+  it("should create the component", async () => {
 
-  it("should create the component", () => {
+    const {fixture} = await renderComponent([]);
 
-    expect(component).toBeTruthy();
+    expect(fixture.componentInstance).toBeTruthy();
 
   });
 
 
-  it("should display only beginner courses", () => {
+  it("should display only beginner courses", async () => {
 
-      coursesService.findAllCourses.and.returnValue(of(beginnerCourses));
+      await renderComponent(beginnerCourses);
 
-      fixture.detectChanges();
+      expect(screen.getAllByRole('tab').length).toBe(1, "Unexpected number of tabs found");
 
-      const tabs = el.queryAll(By.css(".mdc-tab"));
-
-      expect(tabs.length).toBe(1, "Unexpected number of tabs found");
+      expect(screen.getByRole('tab', {name: "Beginners"})).toBeTruthy();
 
   });
 
 
-  it("should display only advanced courses", () => {
+  it("should display only advanced courses", async () => {
 
-      coursesService.findAllCourses.and.returnValue(of(advancedCourses));
+      await renderComponent(advancedCourses);
 
-      fixture.detectChanges();
+      expect(screen.getAllByRole('tab').length).toBe(1, "Unexpected number of tabs found");
 
-      const tabs = el.queryAll(By.css(".mdc-tab"));
-
-      expect(tabs.length).toBe(1, "Unexpected number of tabs found");
+      expect(screen.getByRole('tab', {name: "Advanced"})).toBeTruthy();
 
   });
 
 
-  it("should display both tabs", () => {
+  it("should display both tabs", async () => {
 
-      coursesService.findAllCourses.and.returnValue(of(setupCourses()));
+      await renderComponent(setupCourses());
 
-      fixture.detectChanges();
-
-      const tabs = el.queryAll(By.css(".mdc-tab"));
-
-      expect(tabs.length).toBe(2, "Expected to find 2 tabs");
+      expect(screen.getAllByRole('tab').length).toBe(2, "Expected to find 2 tabs");
 
   });
 
 
-  it("should display advanced courses when tab clicked - fakeAsync", fakeAsync(() => {
+  it("should display advanced courses when tab clicked", async () => {
 
-      coursesService.findAllCourses.and.returnValue(of(setupCourses()));
+      await renderComponent(setupCourses());
 
-      fixture.detectChanges();
+      await userEvent.click(screen.getByRole('tab', {name: "Advanced"}));
 
-      const tabs = el.queryAll(By.css(".mdc-tab"));
+      const activeTabPanel = await screen.findByRole('tabpanel');
 
-      click(tabs[1]);
+      expect(within(activeTabPanel).getByText(/Angular Security Course/)).toBeTruthy();
 
-      fixture.detectChanges();
-
-      flush();
-
-      const cardTitles = el.queryAll(By.css('.mat-mdc-tab-body-active .mat-mdc-card-title'));
-
-      console.log(cardTitles);
-
-      expect(cardTitles.length).toBeGreaterThan(0,"Could not find card titles");
-
-      expect(cardTitles[0].nativeElement.textContent).toContain("Angular Security Course");
-
-  }));
-
-
-    it("should display advanced courses when tab clicked - async", waitForAsync(() => {
-
-        coursesService.findAllCourses.and.returnValue(of(setupCourses()));
-
-        fixture.detectChanges();
-
-        const tabs = el.queryAll(By.css(".mdc-tab"));
-
-        click(tabs[1]);
-
-        fixture.detectChanges();
-
-        fixture.whenStable().then(() => {
-
-            console.log("called whenStable() ");
-
-            const cardTitles = el.queryAll(By.css('.mat-mdc-tab-body-active .mat-mdc-card-title'));
-
-            expect(cardTitles.length).toBeGreaterThan(0,"Could not find card titles");
-
-            expect(cardTitles[0].nativeElement.textContent).toContain("Angular Security Course");
-
-        });
-
-    }));
-
+  });
 
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
