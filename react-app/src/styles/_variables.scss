@@ -1,0 +1,16 @@
+// Colours ported from the Angular Material theme that used to be defined in
+// src/styles.scss (teal primary palette, red A200 accent).
+$primary: #009688;
+$primary-contrast: #ffffff;
+$accent: #ff5252;
+$accent-contrast: #ffffff;
+
+$dark-primary-text: rgba(0, 0, 0, 0.87);
+$dark-secondary-text: rgba(0, 0, 0, 0.54);
+$dark-disabled-text: rgba(0, 0, 0, 0.38);
+$divider: rgba(0, 0, 0, 0.12);
+
+$app-background: #fafafa;
+$card-background: #ffffff;
+
+$font-family: Roboto, 'Helvetica Neue', sans-serif;

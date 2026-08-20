@@ -1,76 +1,58 @@
 
-## Angular Testing Course
+## Courses Testing Course (React + TypeScript + Vite)
 
-This repository contains the code of the [Angular Testing Course](https://angular-university.io/course/angular-testing-course).
-
-This course repository is updated to Angular v19, and there is a  package-lock.json file available, for avoiding semantic versioning installation issues.
-
-![Angular Testing Course](https://s3-us-west-1.amazonaws.com/angular-university/course-images/angular-testing-small.png)
-
+This repository contains a courses/lessons sample application, originally built with Angular and now migrated to
+React 19 + TypeScript, built with Vite. The Node/Express mock REST API in `server/` is unchanged.
 
 # Installation pre-requisites
 
-Please install Node 18 Long Term Support Edition (LTE).
-
-# Installing the Angular CLI
-
-With the following command the angular-cli will be installed globally in your machine:
-
-    npm install -g @angular/cli 
-
+Please install Node 20 Long Term Support Edition (LTS).
 
 # How To install this repository
 
-We can install the master branch using the following commands:
-
     git clone https://github.com/angular-university/angular-testing-course.git
-    
-This repository is made of several separate npm modules, that are installable separately. For example, to run the au-input module, we can do the following:
-    
     cd angular-testing-course
     npm install
 
-Its also possible to install the modules as usual using npm:
+The root `postinstall` script also installs the dependencies of the React app in `react-app/`.
 
-    npm install 
+# Project structure
 
-NPM 5 or above has the big advantage that if you use it you will be installing the exact same dependencies than I installed in my machine, so you wont run into issues caused by semantic versioning updates.
-
-This should take a couple of minutes. If there are issues, please post the complete error message in the Questions section of the course.
+    react-app/           React + TypeScript + Vite frontend
+      src/types/         TypeScript models (Course, Lesson)
+      src/services/      API services (fetch + AbortController)
+      src/context/       React context providers
+      src/hooks/         Data hooks (useCourse, useLessons)
+      src/components/    Reusable UI components
+      src/pages/         Route level pages (Home, About, Course)
+      src/styles/        Global SCSS (Material-like theme, plain CSS)
+    server/              Express mock REST API (unchanged)
+    cypress/             Cypress e2e tests
 
 # To Run the Development Backend Server
 
-We can start the sample application backend with the following command:
-
     npm run server
 
-This is a small Node REST API server.
+This is a small Node REST API server listening on port 9000. The Vite dev server (and `vite preview`)
+proxy `/api` to it, so the frontend keeps calling the same endpoints.
 
 # To run the Development UI Server
 
-To run the frontend part of our code, we will use the Angular CLI:
-
-    npm start 
+    npm start
 
 The application is visible at port 4200: [http://localhost:4200](http://localhost:4200)
 
+To run backend and frontend together:
 
+    npm run dev
 
-# Important 
+# Build, test and lint
 
-This repository has multiple branches, have a look at the beginning of each section to see the name of the branch.
-
-At certain points along the course, you will be asked to checkout other remote branches other than master. You can view all branches that you have available remotely using the following command:
-
-    git branch -a
-
-  The remote branches have their starting in origin, such as for example 1-navigation-and-containers.
-
-We can checkout the remote branch and start tracking it with a local branch that has the same name, by using the following command:
-
-      git checkout -b section-1 origin/1-navigation-and-containers
-
-It's also possible to download a ZIP file for a given branch,  using the branch dropdown on this page on the top left, and then selecting the Clone or Download / Download as ZIP button.
+    npm run build     # type-check + Vite production build into dist/
+    npm test          # Vitest + React Testing Library unit tests
+    npm run lint      # oxlint
+    npm run e2e       # production build + preview + Cypress e2e
+    npm run cypress:open
 
 # Other Courses
 # Modern Angular With Signals
