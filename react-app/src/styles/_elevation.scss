@@ -1,0 +1,22 @@
+// Material elevation shadows, matching the mat-elevation-zN classes used by the
+// original Angular templates.
+@mixin elevation-z6 {
+  box-shadow:
+    0 3px 5px -1px #0003,
+    0 6px 10px 0 #00000024,
+    0 1px 18px 0 #0000001f;
+}
+
+@mixin elevation-z8 {
+  box-shadow:
+    0 5px 5px -3px #0003,
+    0 8px 10px 1px #00000024,
+    0 3px 14px 2px #0000001f;
+}
+
+@mixin elevation-z10 {
+  box-shadow:
+    0 6px 6px -3px #0003,
+    0 10px 14px 1px #00000024,
+    0 4px 18px 3px #0000001f;
+}

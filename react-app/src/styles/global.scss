@@ -1,0 +1,388 @@
+@use 'variables' as *;
+@use 'elevation' as *;
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: $font-family;
+  color: $dark-primary-text;
+  background-color: $app-background;
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+main {
+  margin: 30px;
+}
+
+.container {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 400;
+}
+
+/* ----------------------------------------------------------------- toolbar */
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  height: 64px;
+  padding: 0 8px;
+  background-color: $primary;
+  color: $primary-contrast;
+  font-size: 20px;
+  font-weight: 500;
+
+  @include elevation-z6;
+}
+
+.toolbar-link {
+  display: inline-flex;
+  align-items: center;
+  height: 36px;
+  padding: 0 16px;
+  margin-right: 8px;
+  border-radius: 4px;
+  color: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.09em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: background-color 200ms ease;
+
+  &:hover,
+  &.active {
+    background-color: rgba(255, 255, 255, 0.16);
+  }
+}
+
+/* ----------------------------------------------------------------- buttons */
+
+.button {
+  height: 36px;
+  min-width: 64px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 4px;
+  background-color: #fff;
+  color: $dark-primary-text;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    box-shadow 200ms ease,
+    filter 200ms ease;
+  box-shadow:
+    0 3px 1px -2px #0003,
+    0 2px 2px 0 #00000024,
+    0 1px 5px 0 #0000001f;
+
+  &:hover {
+    filter: brightness(0.95);
+  }
+
+  &:disabled {
+    color: $dark-disabled-text;
+    cursor: default;
+  }
+}
+
+.button-primary {
+  background-color: $primary;
+  color: $primary-contrast;
+}
+
+.button-accent {
+  background-color: $accent;
+  color: $accent-contrast;
+}
+
+/* ------------------------------------------------------------ form fields */
+
+.form-field {
+  display: block;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.form-field label {
+  display: block;
+  margin-bottom: 4px;
+  color: $dark-secondary-text;
+  font-size: 12px;
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+  width: 100%;
+  padding: 6px 0;
+  border: none;
+  border-bottom: 1px solid $divider;
+  background: transparent;
+  color: inherit;
+  font-family: inherit;
+  font-size: 16px;
+  outline: none;
+
+  &:focus {
+    border-bottom: 2px solid $primary;
+  }
+}
+
+.form-field textarea {
+  height: 100px;
+  resize: vertical;
+}
+
+/* ---------------------------------------------------------------- spinner */
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(0, 150, 136, 0.2);
+  border-top-color: $primary;
+  border-radius: 50%;
+  animation: spinner-rotate 1s linear infinite;
+}
+
+@keyframes spinner-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ------------------------------------------------------------------- tabs */
+
+.tab-group {
+  background-color: $card-background;
+}
+
+.tab-header {
+  display: flex;
+  border-bottom: 1px solid $divider;
+}
+
+.tab-label {
+  flex: 1;
+  height: 48px;
+  padding: 0 24px;
+  border: none;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: $dark-secondary-text;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  cursor: pointer;
+
+  &.tab-label-active {
+    border-bottom-color: $primary;
+    color: $primary;
+  }
+}
+
+/* ------------------------------------------------------------------ cards */
+
+.card {
+  display: block;
+  padding: 16px;
+  border-radius: 4px;
+  background-color: $card-background;
+  color: $dark-primary-text;
+}
+
+.card-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 32px;
+}
+
+.card-content {
+  display: block;
+  padding: 16px 0;
+  color: $dark-secondary-text;
+  font-size: 14px;
+}
+
+.card-image {
+  display: block;
+  width: calc(100% + 32px);
+  margin: 0 -16px;
+}
+
+.card-actions {
+  display: block;
+  padding: 8px 0;
+}
+
+/* ------------------------------------------------------------------ table */
+
+.table {
+  display: block;
+  width: 100%;
+  background-color: $card-background;
+}
+
+.header-row,
+.row {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  border-bottom: 1px solid $divider;
+  padding: 0 24px;
+}
+
+.header-row {
+  min-height: 56px;
+  color: $dark-secondary-text;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.row {
+  font-size: 14px;
+}
+
+.header-cell,
+.cell {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sort-header {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.sort-arrow {
+  font-size: 10px;
+}
+
+/* -------------------------------------------------------------- paginator */
+
+.paginator {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+  min-height: 56px;
+  padding: 0 8px;
+  color: $dark-secondary-text;
+  font-size: 12px;
+}
+
+.paginator-page-size {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.paginator-page-size select {
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.paginator-nav {
+  display: flex;
+  gap: 8px;
+}
+
+.paginator-nav button {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: $dark-secondary-text;
+  cursor: pointer;
+
+  &:disabled {
+    color: $dark-disabled-text;
+    cursor: default;
+  }
+
+  &:not(:disabled):hover {
+    background-color: rgba(0, 0, 0, 0.04);
+  }
+}
+
+/* ----------------------------------------------------------------- dialog */
+
+.dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.32);
+  z-index: 1000;
+}
+
+.dialog {
+  width: 500px;
+  max-width: calc(100vw - 32px);
+  max-height: calc(100vh - 64px);
+  overflow: auto;
+  padding: 24px;
+  border-radius: 4px;
+  background-color: $card-background;
+
+  @include elevation-z10;
+}
+
+.dialog-title {
+  margin: 0 0 20px;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-start;
+  gap: 8px;
+  padding-top: 8px;
+}
+
+/* -------------------------------------------------------------- elevation */
+
+.elevation-z6 {
+  @include elevation-z6;
+}
+
+.elevation-z8 {
+  @include elevation-z8;
+}
+
+.elevation-z10 {
+  @include elevation-z10;
+}
