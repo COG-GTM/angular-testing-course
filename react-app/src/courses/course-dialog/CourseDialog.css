@@ -1,0 +1,9 @@
+.course-dialog-field {
+  display: block;
+  width: 100%;
+}
+
+.course-dialog textarea {
+  height: 100px;
+  resize: vertical;
+}
