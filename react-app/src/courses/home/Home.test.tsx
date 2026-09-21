@@ -1,4 +1,5 @@
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import { Home } from './Home';
 import { CoursesService } from '../services/CoursesService';
 import { CoursesServiceProvider } from '../services/CoursesServiceContext';
@@ -22,9 +23,11 @@ describe('Home', () => {
     let result: ReturnType<typeof render> | undefined;
     await act(async () => {
       result = render(
-        <CoursesServiceProvider service={coursesService}>
-          <Home />
-        </CoursesServiceProvider>,
+        <MemoryRouter>
+          <CoursesServiceProvider service={coursesService}>
+            <Home />
+          </CoursesServiceProvider>
+        </MemoryRouter>,
       );
     });
     return result!;
