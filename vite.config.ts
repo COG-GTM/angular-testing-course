@@ -2,7 +2,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-// Mirrors the Angular dev setup: app on :4200, `/api` proxied to the Express mock API on :9000 (proxy.json).
+// Same ports as the legacy dev setup: app on :4200, `/api` proxied to the Express mock API on :9000.
 const apiProxy = {
   '/api': {
     target: 'http://localhost:9000',
