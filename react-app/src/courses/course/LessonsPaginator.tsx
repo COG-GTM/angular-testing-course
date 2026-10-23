@@ -34,9 +34,10 @@ const pageSizeMenuProps = {
   },
   sx: {
     '& .MuiMenuItem-root': { minHeight: 48, fontSize: 16, px: '16px' },
-    '& .MuiMenuItem-root.Mui-selected, & .MuiMenuItem-root.Mui-selected:hover, & .MuiMenuItem-root.Mui-focusVisible': {
+    '& .MuiMenuItem-root.Mui-selected, & .MuiMenuItem-root.Mui-selected:hover, & .MuiMenuItem-root.Mui-focusVisible, & .MuiMenuItem-root.Mui-selected.Mui-focusVisible': {
       backgroundColor: 'rgba(0, 0, 0, 0.04)',
     },
+    '& .MuiMenuItem-root.Mui-selected': { color: '#009688' },
   },
 } as const;
 
@@ -53,6 +54,8 @@ const pageSizeSelectSx = {
   },
   '& .MuiOutlinedInput-notchedOutline': { borderColor: 'rgba(0, 0, 0, 0.38)' },
   '& .MuiSelect-icon': { right: 9, color: 'rgba(0, 0, 0, 0.54)' },
+  '& .MuiSelect-iconOpen': { transform: 'none' },
+  '&.Mui-focused .MuiSelect-icon': { color: '#009688' },
 } as const;
 
 /** Port of `<mat-paginator>` (no first/last buttons, Angular's default labels). */
