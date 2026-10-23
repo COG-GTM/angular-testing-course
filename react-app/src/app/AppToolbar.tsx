@@ -38,7 +38,10 @@ const buttonSx: SxProps<Theme> = {
   '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' },
   '&.Mui-focusVisible, &:active': { backgroundColor: 'rgba(0, 0, 0, 0.12)' },
   // MUI ripples render at 30% opacity: 0.3 × 0.333 ≈ the 10% `--mat-text-button-ripple-color`.
-  '& .MuiTouchRipple-child': { backgroundColor: 'rgba(0, 0, 0, 0.333)' },
+  // Extra class so this out-ranks TouchRipple's own `currentColor` rule, which is injected later (lazy ripple).
+  '& .MuiTouchRipple-root .MuiTouchRipple-child': { backgroundColor: 'rgba(0, 0, 0, 0.333)' },
+  // Like `.mdc-button__label`, keep the label above the ripple so the text stays pure white while pressed.
+  '& > span:not(.MuiTouchRipple-root)': { position: 'relative', zIndex: 1 },
 };
 
 /** Port of the `<mat-toolbar color="primary" class="mat-elevation-z6">` in app.component.html. */
