@@ -12,7 +12,8 @@ export type SortOrder = 'asc' | 'desc';
 
 /** Port of Angular's `CoursesService` (src/app/courses/services/courses.service.ts), Promise-based. */
 export interface CoursesService {
-  findCourseById(id: number, opts?: RequestOptions): Promise<Course>;
+  /** Resolves `null` when the API answers an unknown id with an empty 200 body. */
+  findCourseById(id: number, opts?: RequestOptions): Promise<Course | null>;
   findAllCourses(opts?: RequestOptions): Promise<Course[]>;
   saveCourse(id: number, changes: Partial<Course>, opts?: RequestOptions): Promise<Course>;
   findLessons(
@@ -58,7 +59,7 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
 
 export const coursesService: CoursesService = {
   findCourseById(id, opts = {}) {
-    return request<Course>(`/api/courses/${id}`, { signal: opts.signal });
+    return request<Course | null>(`/api/courses/${id}`, { signal: opts.signal });
   },
 
   async findAllCourses(opts = {}) {

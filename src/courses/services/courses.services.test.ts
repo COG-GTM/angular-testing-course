@@ -47,10 +47,16 @@ describe('CoursesService', () => {
     const course = await coursesService.findCourseById(12);
 
     expect(course).toBeTruthy();
-    expect(course.id).toBe(12);
+    expect(course?.id).toBe(12);
 
     const req = expectOne((url) => url.pathname === '/api/courses/12');
     expect(req.method).toEqual('GET');
+  });
+
+  it('should resolve null for an unknown course (empty 200 body)', async () => {
+    server.use(http.get('/api/courses/999', () => new HttpResponse(null, { status: 200 })));
+
+    expect(await coursesService.findCourseById(999)).toBeNull();
   });
 
   it('should save the course data', async () => {
@@ -59,7 +65,7 @@ describe('CoursesService', () => {
 
     const course = await coursesService.saveCourse(12, changes);
 
-    expect(course.id).toBe(12);
+    expect(course?.id).toBe(12);
 
     const req = expectOne((url) => url.pathname === '/api/courses/12');
     expect(req.method).toEqual('PUT');
