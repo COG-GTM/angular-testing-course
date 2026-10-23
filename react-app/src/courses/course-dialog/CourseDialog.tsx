@@ -93,7 +93,7 @@ export function CourseDialog({ open, course, onClose }: CourseDialogProps) {
     >
       <DialogTitle
         id="course-dialog-title"
-        sx={{ p: '17px 24px 9px', mb: '1px', fontSize: 20, fontWeight: 500, lineHeight: '32px', letterSpacing: '0.0125em' }}
+        sx={{ p: '17px 24px 9px', mb: '1px', fontSize: 20, fontWeight: 400, lineHeight: '32px', letterSpacing: '0.0125em' }}
       >
         {course.titles.description}
       </DialogTitle>
@@ -146,6 +146,7 @@ export function CourseDialog({ open, course, onClose }: CourseDialogProps) {
           value={releasedAt}
           onChange={(v) => setReleasedAt(v)}
           format="M/D/YYYY"
+          dayOfWeekFormatter={(day) => day.format('dd')}
           enableAccessibleFieldDOMStructure={false}
           slotProps={{
             textField: {
@@ -159,6 +160,7 @@ export function CourseDialog({ open, course, onClose }: CourseDialogProps) {
               inputProps: { 'aria-label': 'Release date' },
             },
             openPickerButton: { 'aria-label': 'Open calendar' },
+            calendarHeader: { format: 'MMM YYYY', sx: { textTransform: 'uppercase' } },
           }}
         />
 

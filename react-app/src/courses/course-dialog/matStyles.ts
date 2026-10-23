@@ -2,7 +2,7 @@
 export const raisedButtonSx = {
   textTransform: 'none',
   fontSize: 14,
-  fontWeight: 500,
+  fontWeight: 400,
   letterSpacing: '0.0892857143em',
   lineHeight: '36px',
   height: 36,
