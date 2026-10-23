@@ -163,4 +163,16 @@ describe('CourseDialogComponent', () => {
 
     expect(description).toHaveAttribute('aria-invalid', 'true');
   });
+
+  it('should show the error state for an impossible release date', async () => {
+    setup();
+
+    const date = screen.getByRole('textbox', { name: 'Release date' });
+    await userEvent.type(date, '{Backspace}', { initialSelectionStart: 0, initialSelectionEnd: 10 });
+    await userEvent.keyboard('02312026');
+    await userEvent.tab();
+
+    expect(date).toHaveValue('02/31/2026');
+    expect(date).toHaveAttribute('aria-invalid', 'true');
+  });
 });

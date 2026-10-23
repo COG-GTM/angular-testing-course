@@ -54,7 +54,7 @@ export function CourseDialog({ open, course, onClose }: CourseDialogProps) {
   const invalid: Record<Field, boolean> = {
     description: !description,
     category: !category,
-    releasedAt: !releasedAt,
+    releasedAt: !releasedAt || !releasedAt.isValid(),
     longDescription: !longDescription,
   };
   const showError = (field: Field) => !!touched[field] && invalid[field];
