@@ -186,6 +186,26 @@ describe('Home', () => {
     expect(activeCardTitles()[0]).toContain('Angular Security Course');
   });
 
+  it('falls back to the remaining tab and keeps it when the removed category returns', async () => {
+    const user = userEvent.setup();
+    coursesService.findAllCourses
+      .mockResolvedValueOnce(setupCourses())
+      .mockResolvedValueOnce(beginnerCourses)
+      .mockResolvedValueOnce(setupCourses());
+
+    renderHome();
+    await user.click(await screen.findByRole('tab', { name: 'Advanced' }));
+
+    await user.click(screen.getByRole('button', { name: 'stub edit' }));
+    await waitFor(() => expect(screen.getAllByRole('tab')).toHaveLength(1));
+    expect(screen.getByRole('tab', { name: 'Beginners' })).toHaveAttribute('aria-selected', 'true');
+
+    await user.click(screen.getByRole('button', { name: 'stub edit' }));
+    await waitFor(() => expect(screen.getAllByRole('tab')).toHaveLength(2));
+    expect(screen.getByRole('tab', { name: 'Beginners' })).toHaveAttribute('aria-selected', 'true');
+    expect(activeCardTitles()[0]).toBe('Angular Testing Course');
+  });
+
   it('ignores a stale response that resolves after a newer reload', async () => {
     const user = userEvent.setup();
     let resolveStale!: (courses: Course[]) => void;

@@ -18,8 +18,27 @@ const CATEGORY_TABS = [
   { key: 'ADVANCED', label: 'Advanced' },
 ] as const;
 
+interface Selection {
+  key: string;
+  index: number;
+}
+
 function filterByCategory(courses: Course[], category: string): Course[] {
   return courses.filter((course) => course.category === category).sort(sortCoursesBySeqNo);
+}
+
+function buildTabs(courses: Course[]): CategoryTab[] {
+  return CATEGORY_TABS.map(({ key, label }) => ({ key, label, courses: filterByCategory(courses, key) })).filter(
+    (tab) => tab.courses.length > 0,
+  );
+}
+
+// Like MatTabGroup: keep the selected tab when the tab list changes, otherwise clamp the old index.
+function reconcileSelection(prev: Selection, tabs: CategoryTab[]): Selection {
+  if (tabs.length === 0) return prev;
+  const keyIndex = tabs.findIndex((tab) => tab.key === prev.key);
+  const index = keyIndex >= 0 ? keyIndex : Math.min(prev.index, tabs.length - 1);
+  return index === prev.index && tabs[index].key === prev.key ? prev : { key: tabs[index].key, index };
 }
 
 // Angular Material 19 M2 `mat-tab-group` (stretched MDC tabs) look.
@@ -29,6 +48,7 @@ const tabsSx = {
 } as const;
 
 const tabSx = {
+  flexBasis: 'auto',
   minHeight: 48,
   minWidth: 90,
   padding: '0 24px',
@@ -40,6 +60,8 @@ const tabSx = {
   textTransform: 'none',
   color: 'rgba(0, 0, 0, 0.6)',
   opacity: 1,
+  WebkitFontSmoothing: 'antialiased',
+  MozOsxFontSmoothing: 'grayscale',
   '&.Mui-selected': { color: 'primary.main' },
 } as const;
 
@@ -47,7 +69,7 @@ const tabSx = {
 export function Home() {
   const coursesService = useCoursesService();
   const [courses, setCourses] = useState<Course[] | null>(null);
-  const [selected, setSelected] = useState<{ key: string; index: number }>({ key: CATEGORY_TABS[0].key, index: 0 });
+  const [selected, setSelected] = useState<Selection>({ key: CATEGORY_TABS[0].key, index: 0 });
   const pending = useRef<AbortController | null>(null);
 
   const reloadCourses = useCallback(() => {
@@ -56,7 +78,9 @@ export function Home() {
     pending.current = controller;
     coursesService.findAllCourses({ signal: controller.signal }).then(
       (result) => {
-        if (!controller.signal.aborted) setCourses(result);
+        if (controller.signal.aborted) return;
+        setCourses(result);
+        setSelected((prev) => reconcileSelection(prev, buildTabs(result)));
       },
       (error: unknown) => {
         if (!controller.signal.aborted) console.error(error);
@@ -69,15 +93,8 @@ export function Home() {
     return () => pending.current?.abort();
   }, [reloadCourses]);
 
-  const tabs: CategoryTab[] = courses
-    ? CATEGORY_TABS.map(({ key, label }) => ({ key, label, courses: filterByCategory(courses, key) })).filter(
-        (tab) => tab.courses.length > 0,
-      )
-    : [];
-
-  // Like MatTabGroup: keep the selected tab when the tab list changes, otherwise clamp the old index.
-  const keyIndex = tabs.findIndex((tab) => tab.key === selected.key);
-  const selectedIndex = keyIndex >= 0 ? keyIndex : Math.min(selected.index, tabs.length - 1);
+  const tabs = courses ? buildTabs(courses) : [];
+  const selectedIndex = tabs.findIndex((tab) => tab.key === selected.key);
   const activeTab = tabs[selectedIndex];
 
   const handleChange = (_event: SyntheticEvent, index: number) => {
