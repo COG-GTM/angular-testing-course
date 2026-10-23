@@ -62,6 +62,9 @@ const tabSx = {
   opacity: 1,
   WebkitFontSmoothing: 'antialiased',
   MozOsxFontSmoothing: 'grayscale',
+  // MDC tab state layer (primary): 4% on hover, 12% on keyboard focus.
+  '&:hover': { backgroundColor: 'rgba(0, 150, 136, 0.04)' },
+  '&.Mui-focusVisible': { backgroundColor: 'rgba(0, 150, 136, 0.12)' },
   '&.Mui-selected': { color: 'primary.main' },
 } as const;
 
