@@ -29,3 +29,31 @@ test('unknown routes redirect to /', async ({ page }) => {
   await expect(page).toHaveURL(/\/$/);
   await expect(page.getByText('All Courses')).toBeVisible();
 });
+
+test('home sends exactly one GET /api/courses per load (production build)', async ({ page }) => {
+  const requests: string[] = [];
+  page.on('request', (r) => {
+    if (new URL(r.url()).pathname === '/api/courses') requests.push(r.method());
+  });
+  await page.goto('/');
+  await expect(page.locator('.course-card').first()).toBeVisible();
+  await page.waitForLoadState('networkidle');
+  expect(requests).toEqual(['GET']);
+});
+
+test('toolbar links are reachable and activated with the keyboard', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('.course-card').first()).toBeVisible();
+  await page.keyboard.press('Tab');
+  await expect(page.getByRole('link', { name: 'COURSES' })).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(page.getByRole('link', { name: 'ABOUT' })).toBeFocused();
+  await page.keyboard.press('Enter');
+  await expect(page).toHaveURL(/\/about$/);
+  await expect(page.getByRole('heading', { name: 'Welcome!' })).toBeVisible();
+  await page.keyboard.press('Shift+Tab');
+  await expect(page.getByRole('link', { name: 'COURSES' })).toBeFocused();
+  await page.keyboard.press('Enter');
+  await expect(page).toHaveURL(/\/$/);
+  await expect(page.getByText('All Courses')).toBeVisible();
+});
