@@ -1,0 +1,49 @@
+/* Port of courses-card-list.component.css + the Angular Material 19 (M2) mat-card layout it relies on. */
+.course-card {
+  margin: 20px 10px;
+  border-radius: 4px;
+  color: #000;
+}
+
+.course-card .course-card-header {
+  display: flex;
+  padding: 16px 16px 0;
+}
+
+.course-card .course-card-title {
+  display: block;
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 32px;
+  letter-spacing: 0.0125em;
+}
+
+.course-card .course-card-image {
+  display: block;
+  width: 100%;
+}
+
+.course-card .course-card-content {
+  display: block;
+  padding: 0 16px;
+}
+
+/* mat-card-content drops the bottom margin of its last child. */
+.course-card .course-card-content > :last-child {
+  margin-bottom: 0;
+}
+
+.course-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.course-actions button {
+  margin-right: 5px;
+}
