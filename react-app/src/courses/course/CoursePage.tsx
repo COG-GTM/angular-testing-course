@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useLoaderData } from 'react-router';
 import CircularProgress from '@mui/material/CircularProgress';
 import FilledInput from '@mui/material/FilledInput';
@@ -66,7 +66,6 @@ function CourseLessons({ course }: { course: Course }) {
   const queryRef = useRef(query);
   const inputRef = useRef<HTMLInputElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-  const lastSearchRef = useRef<string | undefined>(undefined);
 
   useEffect(() => {
     loadLessons(course.id, '', 'asc', 0, 3);
@@ -82,15 +81,11 @@ function CourseLessons({ course }: { course: Course }) {
     loadLessons(course.id, inputRef.current?.value ?? '', next.sortDirection, next.pageIndex, next.pageSize);
   };
 
-  // keyup -> debounceTime(150) -> distinctUntilChanged() -> page 0 + reload.
-  const onSearchKeyUp = (event: KeyboardEvent<HTMLInputElement>) => {
-    const input = event.currentTarget;
+  // keyup -> debounceTime(150) -> page 0 + reload. Legacy `distinctUntilChanged()` compares KeyboardEvent
+  // objects, which are always distinct, so every debounced keyup reloads even when the value is unchanged.
+  const onSearchKeyUp = () => {
     clearTimeout(debounceRef.current);
-    debounceRef.current = setTimeout(() => {
-      if (input.value === lastSearchRef.current) return;
-      lastSearchRef.current = input.value;
-      loadLessonsPage({ pageIndex: 0 });
-    }, SEARCH_DEBOUNCE_MS);
+    debounceRef.current = setTimeout(() => loadLessonsPage({ pageIndex: 0 }), SEARCH_DEBOUNCE_MS);
   };
 
   // matSortDisableClear: the active column only toggles asc <-> desc; a sort change resets to page 0.
@@ -152,7 +147,7 @@ function CourseLessons({ course }: { course: Course }) {
         </div>
 
         <LessonsPaginator
-          length={course?.lessonsCount}
+          length={course?.lessonsCount ?? 0}
           pageIndex={query.pageIndex}
           pageSize={query.pageSize}
           pageSizeOptions={PAGE_SIZE_OPTIONS}

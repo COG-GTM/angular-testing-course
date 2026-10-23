@@ -92,7 +92,8 @@
 
 .course-page .lessons-header-cell {
   font-size: 14px;
-  font-weight: 500;
+  /* Legacy index.html only loads Roboto 400, so its weight-500 headers render with the 400 face. */
+  font-weight: 400;
   line-height: 22px;
   letter-spacing: 0.1px;
 }

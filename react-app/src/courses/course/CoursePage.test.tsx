@@ -225,27 +225,34 @@ describe('CoursePage', () => {
     expect(rowSeqNos()).toEqual(['1', '4', '5']);
   });
 
-  it('should not reload when the search value has not changed (distinctUntilChanged)', async () => {
+  it('should reload on every debounced keyup even when the search value is unchanged (legacy parity)', async () => {
     const { spy } = await renderLoaded();
     spy.findLessons.mockClear();
 
     vi.useFakeTimers();
     const input = screen.getByPlaceholderText('Search lessons') as HTMLInputElement;
 
-    typeKey(input, 'spec');
+    typeKey(input, 'test');
     await act(async () => vi.runAllTimers());
     expect(spy.findLessons).toHaveBeenCalledTimes(1);
-    expectLastLoad(spy, 'spec', 'asc', 0, 3);
+    expectLastLoad(spy, 'test', 'asc', 0, 3);
 
-    typeKey(input, 'spec', 'ArrowLeft');
+    fireEvent.click(screen.getByRole('button', { name: 'Next page' }));
+    expectLastLoad(spy, 'test', 'asc', 1, 3);
     await act(async () => vi.runAllTimers());
-    expect(spy.findLessons).toHaveBeenCalledTimes(1);
+    expect(screen.getByText('4 – 6 of 10')).toBeInTheDocument();
 
-    typeKey(input, 'specx');
+    typeKey(input, 'test', 'ArrowLeft');
+    await act(async () => vi.runAllTimers());
+    expect(spy.findLessons).toHaveBeenCalledTimes(3);
+    expectLastLoad(spy, 'test', 'asc', 0, 3);
+    expect(screen.getByText('1 – 3 of 10')).toBeInTheDocument();
+
+    typeKey(input, 'testx');
     act(() => vi.advanceTimersByTime(100));
-    typeKey(input, 'spec', 'Backspace');
+    typeKey(input, 'test', 'Backspace');
     await act(async () => vi.runAllTimers());
-    expect(spy.findLessons).toHaveBeenCalledTimes(1);
+    expect(spy.findLessons).toHaveBeenCalledTimes(4);
   });
 
   it('should use the current search value when paging and sorting', async () => {

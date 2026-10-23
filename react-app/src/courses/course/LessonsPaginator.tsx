@@ -27,6 +27,19 @@ const navButtonSx = {
   '&.Mui-disabled': { color: 'rgba(0, 0, 0, 0.12)' },
 } as const;
 
+const pageSizeMenuProps = {
+  slotProps: {
+    paper: { sx: { borderRadius: '0 0 4px 4px' } },
+    list: { sx: { py: '8px' } },
+  },
+  sx: {
+    '& .MuiMenuItem-root': { minHeight: 48, fontSize: 16, px: '16px' },
+    '& .MuiMenuItem-root.Mui-selected, & .MuiMenuItem-root.Mui-selected:hover, & .MuiMenuItem-root.Mui-focusVisible': {
+      backgroundColor: 'rgba(0, 0, 0, 0.04)',
+    },
+  },
+} as const;
+
 const pageSizeSelectSx = {
   width: 84,
   fontSize: 12,
@@ -61,6 +74,7 @@ export function LessonsPaginator({ length, pageIndex, pageSize, pageSizeOptions,
             value={pageSize}
             labelId={labelId}
             sx={pageSizeSelectSx}
+            MenuProps={pageSizeMenuProps}
             onChange={(e) => {
               const newPageSize = Number(e.target.value);
               if (newPageSize === pageSize) return;
