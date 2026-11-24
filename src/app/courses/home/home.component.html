@@ -5,29 +5,22 @@
 
   <mat-tab-group>
 
-
-    @if ((beginnerCourses$ | async); as beginnerCourses) {
-      @if (beginnerCourses?.length > 0) {
-        <mat-tab label="Beginners">
-          <courses-card-list (courseEdited)="reloadCourses()"
-            [courses]="beginnerCourses">
-          </courses-card-list>
-        </mat-tab>
-      }
+    @if (beginnerCourses().length > 0) {
+      <mat-tab label="Beginners">
+        <courses-card-list (courseEdited)="reloadCourses()"
+          [courses]="beginnerCourses()">
+        </courses-card-list>
+      </mat-tab>
     }
 
-
-    @if ((advancedCourses$ | async); as advancedCourses) {
-      @if (advancedCourses?.length > 0) {
-        <mat-tab label="Advanced">
-          <courses-card-list (courseEdited)="reloadCourses()"
-            [courses]="advancedCourses">
-          </courses-card-list>
-        </mat-tab>
-      }
+    @if (advancedCourses().length > 0) {
+      <mat-tab label="Advanced">
+        <courses-card-list (courseEdited)="reloadCourses()"
+          [courses]="advancedCourses()">
+        </courses-card-list>
+      </mat-tab>
     }
 
   </mat-tab-group>
 
 </div>
-

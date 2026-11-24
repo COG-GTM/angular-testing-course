@@ -10,14 +10,13 @@ import {merge, fromEvent} from "rxjs";
 import {LessonsDataSource} from "../services/lessons.datasource";
 import { MatFormField, MatInput } from '@angular/material/input';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
-import { AsyncPipe } from '@angular/common';
 
 
 @Component({
     selector: 'course',
     templateUrl: './course.component.html',
     styleUrls: ['./course.component.css'],
-    imports: [MatFormField, MatInput, MatProgressSpinner, MatTable, MatSort, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatSortHeader, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, MatPaginator, AsyncPipe]
+    imports: [MatFormField, MatInput, MatProgressSpinner, MatTable, MatSort, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatSortHeader, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, MatPaginator]
 })
 export class CourseComponent implements OnInit, AfterViewInit {
     private route = inject(ActivatedRoute);

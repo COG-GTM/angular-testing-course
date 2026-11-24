@@ -10,7 +10,7 @@
 
   </mat-form-field>
 
-  @if (dataSource.loading$ | async) {
+  @if (dataSource.loading()) {
     <div class="spinner-container">
       <mat-spinner></mat-spinner>
     </div>
