@@ -1,4 +1,4 @@
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, DestroyRef, OnInit, computed, inject, signal } from '@angular/core';
 import {Course} from "../model/course";
 import {CoursesService} from "../services/courses.service";
 import {sortCoursesBySeqNo} from './sort-course-by-seq';
@@ -19,6 +19,10 @@ export class HomeComponent implements OnInit {
     private readonly courses = signal<Course[]>([]);
 
     private coursesLoad?: Subscription;
+
+    constructor() {
+      inject(DestroyRef).onDestroy(() => this.coursesLoad?.unsubscribe());
+    }
 
     readonly beginnerCourses = computed(() => this.filterByCategory('BEGINNER'));
 
