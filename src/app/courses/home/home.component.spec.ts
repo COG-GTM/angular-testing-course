@@ -1,5 +1,4 @@
 import { ComponentFixture, fakeAsync, flush, flushMicrotasks, TestBed, tick, waitForAsync } from '@angular/core/testing';
-import {CoursesModule} from '../courses.module';
 import {DebugElement} from '@angular/core';
 
 import {HomeComponent} from './home.component';
@@ -12,6 +11,7 @@ import {By} from '@angular/platform-browser';
 import {of} from 'rxjs';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {click} from '../common/test-utils';
+import {provideRouter} from '@angular/router';
 
 
 
@@ -37,10 +37,11 @@ describe('HomeComponent', () => {
 
       TestBed.configureTestingModule({
           imports: [
-              CoursesModule,
+              HomeComponent,
               NoopAnimationsModule
           ],
           providers: [
+              provideRouter([]),
               {provide: CoursesService, useValue: coursesServiceSpy}
           ]
       }).compileComponents()

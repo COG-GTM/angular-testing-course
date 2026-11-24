@@ -1,0 +1,38 @@
+[
+  {
+    "page": "about",
+    "diffPct": 0,
+    "sizeBaseline": "1280x900",
+    "sizeUpgraded": "1280x900"
+  },
+  {
+    "page": "course-detail",
+    "diffPct": 0.022,
+    "sizeBaseline": "1280x900",
+    "sizeUpgraded": "1280x900"
+  },
+  {
+    "page": "edit-dialog-invalid",
+    "diffPct": 0.017,
+    "sizeBaseline": "1280x3822",
+    "sizeUpgraded": "1280x3822"
+  },
+  {
+    "page": "edit-dialog",
+    "diffPct": 0.017,
+    "sizeBaseline": "1280x3822",
+    "sizeUpgraded": "1280x3822"
+  },
+  {
+    "page": "home-advanced",
+    "diffPct": 0,
+    "sizeBaseline": "1280x1489",
+    "sizeUpgraded": "1280x1489"
+  },
+  {
+    "page": "home-beginners",
+    "diffPct": 0,
+    "sizeBaseline": "1280x3822",
+    "sizeUpgraded": "1280x3822"
+  }
+]

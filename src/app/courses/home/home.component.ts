@@ -1,25 +1,32 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, DestroyRef, OnInit, computed, inject, signal } from '@angular/core';
 import {Course} from "../model/course";
-import {Observable} from "rxjs";
 import {CoursesService} from "../services/courses.service";
-import {map} from "rxjs/operators";
 import {sortCoursesBySeqNo} from './sort-course-by-seq';
+import { Subscription } from 'rxjs';
+import { MatTabGroup, MatTab } from '@angular/material/tabs';
+import { CoursesCardListComponent } from '../courses-card-list/courses-card-list.component';
 
 @Component({
     selector: 'home',
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.css'],
-    standalone: false
+    imports: [MatTabGroup, MatTab, CoursesCardListComponent]
 })
 export class HomeComponent implements OnInit {
+    private coursesService = inject(CoursesService);
 
-    beginnerCourses$: Observable<Course[]>;
 
-    advancedCourses$: Observable<Course[]>;
+    private readonly courses = signal<Course[]>([]);
 
-    constructor(private coursesService: CoursesService) {
+    private coursesLoad?: Subscription;
 
+    constructor() {
+      inject(DestroyRef).onDestroy(() => this.coursesLoad?.unsubscribe());
     }
+
+    readonly beginnerCourses = computed(() => this.filterByCategory('BEGINNER'));
+
+    readonly advancedCourses = computed(() => this.filterByCategory('ADVANCED'));
 
     ngOnInit() {
 
@@ -30,18 +37,16 @@ export class HomeComponent implements OnInit {
 
     reloadCourses() {
 
-      const courses$ = this.coursesService.findAllCourses();
-
-      this.beginnerCourses$ = this.filterByCategory(courses$, 'BEGINNER');
-
-      this.advancedCourses$ = this.filterByCategory(courses$, 'ADVANCED');
+      this.coursesLoad?.unsubscribe();
+      this.coursesLoad = this.coursesService.findAllCourses()
+        .subscribe(courses => this.courses.set(courses));
 
     }
 
-    filterByCategory(courses$: Observable<Course[]>, category:string) {
-      return courses$.pipe(
-        map(courses => courses.filter(course => course.category === category).sort(sortCoursesBySeqNo) )
-      );
+    private filterByCategory(category: string) {
+      return this.courses()
+        .filter(course => course.category === category)
+        .sort(sortCoursesBySeqNo);
     }
 
 }

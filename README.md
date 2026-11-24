@@ -3,14 +3,14 @@
 
 This repository contains the code of the [Angular Testing Course](https://angular-university.io/course/angular-testing-course).
 
-This course repository is updated to Angular v19, and there is a  package-lock.json file available, for avoiding semantic versioning installation issues.
+This course repository is updated to Angular v21, and there is a  package-lock.json file available, for avoiding semantic versioning installation issues.
 
 ![Angular Testing Course](https://s3-us-west-1.amazonaws.com/angular-university/course-images/angular-testing-small.png)
 
 
 # Installation pre-requisites
 
-Please install Node 18 Long Term Support Edition (LTE).
+Please install Node 20.19+, 22.12+ or 24 (the versions supported by Angular 21).
 
 # Installing the Angular CLI
 

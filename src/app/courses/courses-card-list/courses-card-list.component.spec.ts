@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {CoursesCardListComponent} from './courses-card-list.component';
-import {CoursesModule} from '../courses.module';
+import {provideRouter} from '@angular/router';
 import {COURSES} from '../../../../server/db-data';
 import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
@@ -17,7 +17,8 @@ describe('CoursesCardListComponent', () => {
 
     beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
-            imports: [CoursesModule]
+            imports: [CoursesCardListComponent],
+            providers: [provideRouter([])]
         })
         .compileComponents()
         .then(() => {
@@ -37,7 +38,7 @@ describe('CoursesCardListComponent', () => {
 
     it('should display the course list', () => {
 
-        component.courses = setupCourses();
+        fixture.componentRef.setInput('courses', setupCourses());
 
         fixture.detectChanges();
 
@@ -50,11 +51,11 @@ describe('CoursesCardListComponent', () => {
 
     it('should display the first course', () => {
 
-        component.courses = setupCourses();
+        fixture.componentRef.setInput('courses', setupCourses());
 
         fixture.detectChanges();
 
-        const course = component.courses[0];
+        const course = component.courses()[0];
 
         const card = el.query(By.css(".course-card:first-child")),
                 title = card.query(By.css("mat-card-title")),
