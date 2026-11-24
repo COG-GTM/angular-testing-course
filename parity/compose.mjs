@@ -2,10 +2,11 @@
 // and writes report/side-by-side/*.png plus report/diff.json.
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { PNG } from 'pngjs';
 import pixelmatch from 'pixelmatch';
 
-const root = path.dirname(new URL(import.meta.url).pathname);
+const root = path.dirname(fileURLToPath(import.meta.url));
 const shots = path.join(root, 'report', 'shots');
 const out = path.join(root, 'report', 'side-by-side');
 fs.mkdirSync(out, { recursive: true });
