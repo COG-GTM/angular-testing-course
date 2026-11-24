@@ -17,7 +17,7 @@ The API is local and in-memory (not a shared public backend), so retries are off
 | COURSES link returns to the catalogue | navigation.spec.ts | pass | pass |
 | Unknown route redirects to `/` | navigation.spec.ts | pass | pass |
 | VIEW COURSE opens course 12 with first lessons page | course.spec.ts | pass | pass |
-| Paginator next/previous and page size 3 -> 5 | course.spec.ts | pass | pass |
+| Paginator next page (Previous becomes enabled) and page size 3 -> 10 | course.spec.ts | pass | pass |
 | Sort by # descending | course.spec.ts | pass | pass |
 | Search filter (`mock` -> 1 row, `zzz` -> 0 rows) | course.spec.ts | pass | pass |
 | Course without lessons shows an empty table | course.spec.ts | pass | pass |
@@ -46,8 +46,8 @@ Raw numbers: [diff.json](diff.json).
 ```bash
 # API (port 9000)
 npm run server
-# baseline (master) on 4000, from a separate worktree
-git worktree add ../atc-baseline origin/master && (cd ../atc-baseline && npm ci && npx ng serve --port 4000 --proxy-config ./proxy.json)
+# baseline (Angular 19) on 4000, from a separate worktree
+git worktree add ../atc-baseline 09f46951a0742c571213878e2b3aff1e994b9509  # master before this upgrade (Angular 19) && (cd ../atc-baseline && npm ci && npx ng serve --port 4000 --proxy-config ./proxy.json)
 # upgraded (this branch) on 4200
 npx ng serve --port 4200 --proxy-config ./proxy.json
 # suite + side-by-side report
