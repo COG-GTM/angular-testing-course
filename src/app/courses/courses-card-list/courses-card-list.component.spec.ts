@@ -38,7 +38,7 @@ describe('CoursesCardListComponent', () => {
 
     it('should display the course list', () => {
 
-        component.courses = setupCourses();
+        fixture.componentRef.setInput('courses', setupCourses());
 
         fixture.detectChanges();
 
@@ -51,11 +51,11 @@ describe('CoursesCardListComponent', () => {
 
     it('should display the first course', () => {
 
-        component.courses = setupCourses();
+        fixture.componentRef.setInput('courses', setupCourses());
 
         fixture.detectChanges();
 
-        const course = component.courses[0];
+        const course = component.courses()[0];
 
         const card = el.query(By.css(".course-card:first-child")),
                 title = card.query(By.css("mat-card-title")),

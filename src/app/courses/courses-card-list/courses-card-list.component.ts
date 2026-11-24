@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation, inject } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewEncapsulation, inject, input } from '@angular/core';
 import {Course} from '../model/course';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import {CourseDialogComponent} from '../course-dialog/course-dialog.component';
@@ -17,8 +17,7 @@ export class CoursesCardListComponent implements OnInit {
   private dialog = inject(MatDialog);
 
 
-  @Input()
-  courses: Course[];
+  readonly courses = input<Course[]>();
 
   @Output()
   courseEdited = new EventEmitter();
