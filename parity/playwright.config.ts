@@ -4,6 +4,7 @@ export const BACKEND = 'http://localhost:9000';
 
 export default defineConfig({
   testDir: './specs',
+  globalSetup: './global-setup.ts',
   // The REST backend is shared by both apps and keeps edits in memory, so run serially.
   workers: 1,
   fullyParallel: false,
