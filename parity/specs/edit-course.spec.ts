@@ -51,6 +51,8 @@ test.describe('Edit course dialog (form + save)', () => {
     await dialog.getByRole('button', { name: 'Close' }).click();
     await expect(dialog).toHaveCount(0);
     await expect(page.locator('mat-card-title').first()).toHaveText('Angular Testing Course');
+    await page.reload();
+    await expect(page.locator('mat-card-title').first()).toHaveText('Angular Testing Course');
   });
 
   test('Save persists the new title and refreshes the list', async ({ page }) => {
