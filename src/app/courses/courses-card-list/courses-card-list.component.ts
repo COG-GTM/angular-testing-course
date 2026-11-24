@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation, inject } from '@angular/core';
 import {Course} from '../model/course';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import {CourseDialogComponent} from '../course-dialog/course-dialog.component';
@@ -14,16 +14,14 @@ import { RouterLink } from '@angular/router';
     imports: [MatCard, MatCardHeader, MatCardTitle, MatCardImage, MatCardContent, MatCardActions, MatButton, RouterLink]
 })
 export class CoursesCardListComponent implements OnInit {
+  private dialog = inject(MatDialog);
+
 
   @Input()
   courses: Course[];
 
   @Output()
   courseEdited = new EventEmitter();
-
-  constructor(private dialog: MatDialog) {
-
-  }
 
   ngOnInit() {
 

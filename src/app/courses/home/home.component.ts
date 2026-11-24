@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {Course} from "../model/course";
 import {Observable} from "rxjs";
 import {CoursesService} from "../services/courses.service";
@@ -15,14 +15,12 @@ import { AsyncPipe } from '@angular/common';
     imports: [MatTabGroup, MatTab, CoursesCardListComponent, AsyncPipe]
 })
 export class HomeComponent implements OnInit {
+    private coursesService = inject(CoursesService);
+
 
     beginnerCourses$: Observable<Course[]>;
 
     advancedCourses$: Observable<Course[]>;
-
-    constructor(private coursesService: CoursesService) {
-
-    }
 
     ngOnInit() {
 

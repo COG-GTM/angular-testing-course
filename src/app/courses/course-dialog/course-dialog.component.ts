@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit, ViewEncapsulation} from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions } from "@angular/material/dialog";
 import {Course} from "../model/course";
 import { FormBuilder, Validators, FormGroup, ReactiveFormsModule } from "@angular/forms";
@@ -18,15 +18,18 @@ import { MatButton } from '@angular/material/button';
     imports: [MatDialogTitle, CdkScrollable, MatDialogContent, ReactiveFormsModule, MatFormField, MatInput, MatSelect, MatOption, MatDatepickerInput, MatDatepickerToggle, MatSuffix, MatDatepicker, MatDialogActions, MatButton]
 })
 export class CourseDialogComponent implements OnInit {
+    private fb = inject(FormBuilder);
+    private dialogRef = inject<MatDialogRef<CourseDialogComponent>>(MatDialogRef);
+    private coursesService = inject(CoursesService);
+
 
     course:Course;
     form: FormGroup;
 
-    constructor(
-        private fb: FormBuilder,
-        private dialogRef: MatDialogRef<CourseDialogComponent>,
-        @Inject(MAT_DIALOG_DATA) course:Course,
-        private coursesService: CoursesService) {
+    constructor() {
+        const fb = this.fb;
+        const course = inject<Course>(MAT_DIALOG_DATA);
+
 
         this.course = course;
 

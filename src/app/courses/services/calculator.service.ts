@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {LoggerService} from './logger.service';
 
 
@@ -6,11 +6,8 @@ import {LoggerService} from './logger.service';
   providedIn: 'root'
 })
 export class CalculatorService {
+  private logger = inject(LoggerService);
 
-
-  constructor(private logger: LoggerService) {
-
-  }
 
   add(n1: number, n2:number) {
     this.logger.log("Addition operation called");

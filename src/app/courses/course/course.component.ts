@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort, MatSortHeader } from "@angular/material/sort";
@@ -20,6 +20,9 @@ import { AsyncPipe } from '@angular/common';
     imports: [MatFormField, MatInput, MatProgressSpinner, MatTable, MatSort, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatSortHeader, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, MatPaginator, AsyncPipe]
 })
 export class CourseComponent implements OnInit, AfterViewInit {
+    private route = inject(ActivatedRoute);
+    private coursesService = inject(CoursesService);
+
 
     course:Course;
 
@@ -32,11 +35,6 @@ export class CourseComponent implements OnInit, AfterViewInit {
     @ViewChild(MatSort, { static: true }) sort: MatSort;
 
     @ViewChild('input', { static: true }) input: ElementRef;
-
-    constructor(private route: ActivatedRoute,
-                private coursesService: CoursesService) {
-
-    }
 
     ngOnInit() {
 
