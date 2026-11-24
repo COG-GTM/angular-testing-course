@@ -8,7 +8,9 @@ import {Lesson} from "../model/lesson";
 import {Course} from '../model/course';
 
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class CoursesService {
 
     constructor(private http:HttpClient) {
