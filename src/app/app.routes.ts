@@ -1,21 +1,18 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './courses/home/home.component';
-import { AboutComponent } from './about/about.component';
-import { CourseComponent } from './courses/course/course.component';
 import { courseResolver } from './courses/services/course.resolver';
 
 export const routes: Routes = [
     {
         path: '',
-        component: HomeComponent
+        loadComponent: () => import('./courses/home/home.component').then(m => m.HomeComponent)
     },
     {
         path: 'about',
-        component: AboutComponent
+        loadComponent: () => import('./about/about.component').then(m => m.AboutComponent)
     },
     {
         path: 'courses/:id',
-        component: CourseComponent,
+        loadComponent: () => import('./courses/course/course.component').then(m => m.CourseComponent),
         resolve: {
             course: courseResolver
         }
