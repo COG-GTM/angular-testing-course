@@ -2,7 +2,8 @@ import { Page, TestInfo, expect } from '@playwright/test';
 import * as fs from 'fs';
 import * as path from 'path';
 
-export const BACKEND = process.env.PARITY_BACKEND ?? 'http://localhost:9000';
+// Must match the target in proxy.json: the apps under test always save through it.
+export const BACKEND = 'http://localhost:9000';
 
 export const BEGINNER_TITLES = [
   'Angular Testing Course',

@@ -1,6 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
 
-export const BACKEND = process.env.PARITY_BACKEND ?? 'http://localhost:9000';
+export const BACKEND = 'http://localhost:9000';
 
 export default defineConfig({
   testDir: './specs',
