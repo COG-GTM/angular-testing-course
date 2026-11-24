@@ -47,7 +47,8 @@ Raw numbers: [diff.json](diff.json).
 # API (port 9000)
 npm run server
 # baseline (Angular 19) on 4000, from a separate worktree
-git worktree add ../atc-baseline 09f46951a0742c571213878e2b3aff1e994b9509  # master before this upgrade (Angular 19) && (cd ../atc-baseline && npm ci && npx ng serve --port 4000 --proxy-config ./proxy.json)
+# 09f4695 = master before this upgrade (Angular 19)
+git worktree add ../atc-baseline 09f46951a0742c571213878e2b3aff1e994b9509 && (cd ../atc-baseline && npm ci && npx ng serve --port 4000 --proxy-config ./proxy.json)
 # upgraded (this branch) on 4200
 npx ng serve --port 4200 --proxy-config ./proxy.json
 # suite + side-by-side report
