@@ -30,13 +30,6 @@ import {CoursesService} from './services/courses.service';
 import {courseResolver} from './services/course.resolver';
 
 @NgModule({
-    declarations: [
-        HomeComponent,
-        AboutComponent,
-        CourseComponent,
-        CoursesCardListComponent,
-        CourseDialogComponent
-    ],
     imports: [
         CommonModule,
         MatMenuModule,
@@ -57,7 +50,12 @@ import {courseResolver} from './services/course.resolver';
         MatDatepickerModule,
         MatMomentDateModule,
         ReactiveFormsModule,
-        AppRoutingModule
+        AppRoutingModule,
+        HomeComponent,
+        AboutComponent,
+        CourseComponent,
+        CoursesCardListComponent,
+        CourseDialogComponent
     ],
     exports: [
         HomeComponent,

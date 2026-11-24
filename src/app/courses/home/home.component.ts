@@ -4,12 +4,15 @@ import {Observable} from "rxjs";
 import {CoursesService} from "../services/courses.service";
 import {map} from "rxjs/operators";
 import {sortCoursesBySeqNo} from './sort-course-by-seq';
+import { MatTabGroup, MatTab } from '@angular/material/tabs';
+import { CoursesCardListComponent } from '../courses-card-list/courses-card-list.component';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'home',
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.css'],
-    standalone: false
+    imports: [MatTabGroup, MatTab, CoursesCardListComponent, AsyncPipe]
 })
 export class HomeComponent implements OnInit {
 
